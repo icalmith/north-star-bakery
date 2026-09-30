@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - North Star Bakery</title>
+</head>
+<body>
+  <header>
+    <img src="images/logo.svg" alt="North Star Bakery logo - a loaf of bread with wheat">
+    <h1>Contact Us</h1>
+    <p>Get in touch or place a pre-order</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Hours of Operation</h2>
+      <p><strong>Tuesday - Sunday:</strong> 7:00 AM - 6:00 PM</p>
+      <p><strong>Monday:</strong> Closed</p>
+      <p>We bake fresh daily. Come early for the best selection!</p>
+    </section>
+
+    <section>
+      <h2>Location & Phone</h2>
+      <p><strong>North Star Bakery</strong><br>
+      42 Maple Street<br>
+      Downtown<br>
+      Phone: (555) 123-4567<br>
+      Email: hello@northstarbakery.com</p>
+    </section>
+
+    <section>
+      <h2>Inquiry & Pre-Order Form</h2>
+      <form>
+        <fieldset>
+          <legend>Pre-Order or Inquiry Request</legend>
+
+          <div>
+            <label for="name">Name *</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+
+          <div>
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div>
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone">
+          </div>
+
+          <div>
+            <label for="pickup-date">Desired Pickup Date *</label>
+            <input type="date" id="pickup-date" name="pickup-date" required>
+          </div>
+
+          <div>
+            <label for="request-type">Request Type *</label>
+            <select id="request-type" name="request-type" required>
+              <option value="">-- Select an option --</option>
+              <option value="pre-order">Pre-Order</option>
+              <option value="custom-order">Custom Order (Cake, Event)</option>
+              <option value="general-question">General Question</option>
+              <option value="catering">Catering Inquiry</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="item-details">Item Details or Special Requests *</label>
+            <textarea id="item-details" name="item-details" rows="4" placeholder="Tell us what you'd like to order or ask about..." required></textarea>
+          </div>
+
+          <div>
+            <label for="allergies">Allergy Notes</label>
+            <textarea id="allergies" name="allergies" rows="3" placeholder="Please let us know about any allergies or dietary restrictions..."></textarea>
+          </div>
+
+          <div>
+            <input type="checkbox" id="consent" name="consent" required>
+            <label for="consent">I agree to be contacted via email or phone about my request</label>
+          </div>
+
+          <button type="submit">Submit Request</button>
+          <button type="reset">Clear Form</button>
+        </fieldset>
+      </form>
+    </section>
+
+    <section>
+      <h2>Visit Us in Person</h2>
+      <p>We love meeting our customers! Stop by our shop to browse fresh baked goods, chat with our bakers, and experience the warmth of North Star Bakery in person. We're always happy to discuss custom orders, answer questions, or share baking tips.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 North Star Bakery. All rights reserved.</p>
+    <p>Baked with love for our community.</p>
+  </footer>
+</body>
+</html>
