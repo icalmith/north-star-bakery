@@ -4,10 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Products - North Star Bakery</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <img src="images/logo.svg" alt="North Star Bakery logo - a loaf of bread with wheat">
+    <svg width="120" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M 40 80 Q 40 60 60 50 L 140 50 Q 160 60 160 80 L 160 140 Q 160 160 140 160 L 60 160 Q 40 160 40 140 Z"/>
+        <g transform="translate(100, 90)">
+          <line x1="0" y1="-20" x2="0" y2="20" stroke="currentColor" stroke-width="8"/>
+          <ellipse cx="-12" cy="-15" rx="6" ry="10"/>
+          <ellipse cx="12" cy="-15" rx="6" ry="10"/>
+          <ellipse cx="-12" cy="-5" rx="6" ry="10"/>
+          <ellipse cx="12" cy="-5" rx="6" ry="10"/>
+          <ellipse cx="-12" cy="5" rx="6" ry="10"/>
+          <ellipse cx="12" cy="5" rx="6" ry="10"/>
+        </g>
+      </g>
+    </svg>
     <h1>Our Products</h1>
     <p>Handcrafted baked goods made fresh daily</p>
   </header>
@@ -82,9 +96,7 @@
     <section>
       <h2>Featured Storefront</h2>
       <picture>
-        <source media="(min-width: 768px)" srcset="images/storefront-full.jpg">
-        <source media="(min-width: 480px)" srcset="images/storefront-medium.jpg">
-        <img src="images/storefront-small.jpg" alt="North Star Bakery storefront window display showing shelves of fresh breads, pastries, and baked goods">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 400'%3E%3Crect fill='%238b7355' width='600' height='400'/%3E%3Crect x='50' y='50' width='500' height='300' fill='%23d4a574' stroke='%23333' stroke-width='4'/%3E%3Ctext x='300' y='200' font-size='32' fill='%23333' text-anchor='middle' dominant-baseline='middle'%3EBakery Storefront%3C/text%3E%3C/svg%3E" alt="North Star Bakery storefront window display showing shelves of fresh breads, pastries, and baked goods" style="width: 100%; max-width: 100%;">
       </picture>
     </section>
   </main>

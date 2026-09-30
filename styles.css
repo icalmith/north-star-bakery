@@ -1,0 +1,398 @@
+:root {
+  --primary-brown: #6b4423;
+  --dark-brown: #4a2c1a;
+  --light-tan: #d4a574;
+  --cream: #faf8f3;
+  --text-dark: #333333;
+  --text-light: #666666;
+  --border-color: #e0d5c7;
+  --accent-orange: #c97f2d;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Georgia', 'Garamond', serif;
+  line-height: 1.6;
+  color: var(--text-dark);
+  background-color: var(--cream);
+}
+
+header {
+  background: linear-gradient(135deg, var(--primary-brown) 0%, var(--dark-brown) 100%);
+  color: var(--cream);
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 4px solid var(--light-tan);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header img {
+  max-width: 120px;
+  height: auto;
+  margin-bottom: 1rem;
+  filter: brightness(0) invert(1);
+}
+
+header h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  letter-spacing: 2px;
+}
+
+header p {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--light-tan);
+}
+
+nav {
+  background-color: var(--dark-brown);
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: var(--cream);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: var(--light-tan);
+  color: var(--dark-brown);
+  transform: translateY(-2px);
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+section {
+  background-color: white;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--light-tan);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+section h2 {
+  color: var(--primary-brown);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--light-tan);
+  padding-bottom: 0.5rem;
+}
+
+section h3 {
+  color: var(--accent-orange);
+  font-size: 1.3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+section p {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  line-height: 1.8;
+}
+
+section ul, section ol {
+  margin-left: 2rem;
+  margin-bottom: 1rem;
+}
+
+section li {
+  margin-bottom: 0.5rem;
+  line-height: 1.8;
+}
+
+article {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+article:last-child {
+  border-bottom: none;
+}
+
+figure {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+figure img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 1rem;
+}
+
+figcaption {
+  color: var(--text-light);
+  font-style: italic;
+  font-size: 0.95rem;
+  padding: 0 1rem;
+}
+
+picture img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+audio {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-radius: 4px;
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: var(--light-tan);
+}
+
+form {
+  background-color: #f9f6f0;
+  padding: 2rem;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+legend {
+  color: var(--primary-brown);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  padding: 0;
+}
+
+form div {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  color: var(--primary-brown);
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+select,
+textarea {
+  padding: 0.75rem;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 3px rgba(201, 127, 45, 0.1);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  accent-color: var(--accent-orange);
+}
+
+form div:has(input[type="checkbox"]) {
+  flex-direction: row;
+  align-items: center;
+}
+
+form div:has(input[type="checkbox"]) label {
+  margin-bottom: 0;
+  font-weight: normal;
+}
+
+button {
+  background-color: var(--primary-brown);
+  color: var(--cream);
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 1rem;
+  margin-top: 1rem;
+}
+
+button:hover {
+  background-color: var(--accent-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button[type="reset"] {
+  background-color: var(--text-light);
+}
+
+button[type="reset"]:hover {
+  background-color: var(--text-dark);
+}
+
+footer {
+  background: linear-gradient(135deg, var(--dark-brown) 0%, var(--primary-brown) 100%);
+  color: var(--cream);
+  text-align: center;
+  padding: 2rem;
+  margin-top: 3rem;
+  border-top: 4px solid var(--light-tan);
+}
+
+footer p {
+  margin: 0.5rem 0;
+  color: var(--cream);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+
+  nav ul {
+    gap: 1rem;
+    justify-content: space-around;
+  }
+
+  nav a {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  main {
+    padding: 1rem;
+  }
+
+  section {
+    padding: 1.5rem;
+  }
+
+  section h2 {
+    font-size: 1.5rem;
+  }
+
+  section h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    padding: 1rem;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
+
+  header p {
+    font-size: 1rem;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  nav a {
+    display: block;
+    text-align: center;
+  }
+
+  section {
+    padding: 1rem;
+  }
+
+  section h2 {
+    font-size: 1.3rem;
+  }
+
+  form {
+    padding: 1.5rem;
+  }
+
+  button {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+
+.mt-2 {
+  margin-top: 2rem;
+}
+
+.mb-2 {
+  margin-bottom: 2rem;
+}

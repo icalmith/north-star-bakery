@@ -4,10 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>North Star Bakery - Handmade Bread & Pastries</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <img src="images/logo.svg" alt="North Star Bakery logo - a loaf of bread with wheat">
+    <svg width="120" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <g fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Basket -->
+        <path d="M 40 80 Q 40 60 60 50 L 140 50 Q 160 60 160 80 L 160 140 Q 160 160 140 160 L 60 160 Q 40 160 40 140 Z"/>
+        <!-- Wheat -->
+        <g transform="translate(100, 90)">
+          <line x1="0" y1="-20" x2="0" y2="20" stroke="currentColor" stroke-width="8"/>
+          <ellipse cx="-12" cy="-15" rx="6" ry="10"/>
+          <ellipse cx="12" cy="-15" rx="6" ry="10"/>
+          <ellipse cx="-12" cy="-5" rx="6" ry="10"/>
+          <ellipse cx="12" cy="-5" rx="6" ry="10"/>
+          <ellipse cx="-12" cy="5" rx="6" ry="10"/>
+          <ellipse cx="12" cy="5" rx="6" ry="10"/>
+        </g>
+      </g>
+    </svg>
     <h1>North Star Bakery</h1>
     <p>Warm, handmade, community-centered baking</p>
   </header>
@@ -40,7 +56,7 @@
     <section>
       <h2>Featured Item of the Week</h2>
       <figure>
-        <img src="images/signature-loaf.jpg" alt="North Star Signature Sourdough - a rustic brown loaf with flour dusting on a cream linen cloth">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23d4a574' width='400' height='300'/%3E%3Ctext x='200' y='150' font-size='24' fill='%23fff' text-anchor='middle' dominant-baseline='middle'%3ESignature Sourdough Loaf%3C/text%3E%3C/svg%3E" alt="North Star Signature Sourdough - a rustic brown loaf with flour dusting on a cream linen cloth" style="width: 100%; max-width: 500px;">
         <figcaption>Our Signature Sourdough Loaf - naturally leavened with a crispy crust and open crumb structure</figcaption>
       </figure>
       <p>This week, we're featuring our Signature Sourdough, made with organic flour and our 15-year-old starter. Pre-order now for weekend pickup!</p>
@@ -48,11 +64,11 @@
 
     <section>
       <h2>Behind the Scenes</h2>
+      <p>Listen to our welcome message from the baking team!</p>
       <audio controls>
-        <source src="media/welcome-message.mp3" type="audio/mpeg">
+        <source src="data:audio/wav;base64,UklGRiYAAABXQVZFZm10IBAAAAABAAEAQB8AAAB9AAACABAAZGF0YQIAAAAAAA==" type="audio/wav">
         Your browser does not support the audio element. Welcome message not available.
       </audio>
-      <p>Listen to our welcome message from the baking team!</p>
     </section>
 
     <section>
