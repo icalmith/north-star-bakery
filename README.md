@@ -1,41 +1,49 @@
 # North Star Bakery Website
 
-A semantic HTML website for North Star Bakery, a neighborhood bakery promoting handmade bread, pastries, and custom cakes.
+A fully responsive, semantic HTML website for North Star Bakery with professional styling and media elements.
 
-## Pages
+## 📄 Pages
 
-- **index.html** - Home page with welcome message, bakery highlights, featured item, and hours
-- **products.html** - Product catalog featuring breads, pastries, and cakes with pricing
-- **about.html** - Bakery story, sourcing philosophy, staff highlights, and community commitment
-- **contact.html** - Contact information, hours, location, and pre-order/inquiry form
+- **index.html** - Home page with welcome, highlights, featured video, and hours
+- **products.html** - Product catalog (breads, pastries, cakes) with pricing
+- **about.html** - Bakery story, sourcing, team, and community commitment
+- **contact.html** - Hours, location, contact form, and catering info
 
-## Features
+## ✅ Features Implemented
 
-### Semantic HTML
-- Each page includes `<header>`, `<nav>`, `<main>`, and `<footer>` elements
-- One `<h1>` heading per page
-- Consistent navigation using relative paths
+### Semantic HTML Structure
+- ✓ One `<h1>` per page
+- ✓ `<header>`, `<nav>`, `<main>`, `<footer>` on each page
+- ✓ Consistent navigation with relative paths
+- ✓ Semantic elements: `<section>`, `<article>`, `<figure>`, `<figcaption>`
 
 ### Media Elements
-- Logo and product images with meaningful alt text (signature loaf, storefront)
-- `<figure>` element with caption for Signature Loaf (index.html)
-- `<picture>` element for responsive storefront image (products.html)
-- Audio element with fallback text for welcome message (index.html)
+- ✓ SVG logo on all pages
+- ✓ `<video>` element with fallback text (Featured Item section)
+- ✓ `<audio>` element with fallback text (Behind the Scenes)
+- ✓ `<picture>` element for responsive images (Products page)
+- ✓ Meaningful alt text on all images
 
-### Form
-The contact page includes a complete pre-order/inquiry form with:
-- Name field (required)
-- Email field (required)
-- Phone number field
-- Pickup date field (required)
-- Request type dropdown (required) - options: pre-order, custom order, general question, catering
-- Item details textarea (required)
-- Allergy notes textarea
-- Consent checkbox (required)
-- Submit and reset buttons
-- Proper labels, fieldset, legend, and built-in validation attributes
+### Complete Contact Form
+- ✓ Name (required, text)
+- ✓ Email (required, email validation)
+- ✓ Phone (optional, tel)
+- ✓ Pickup Date (required, date picker)
+- ✓ Request Type dropdown (required)
+- ✓ Item Details textarea (required)
+- ✓ Allergy Notes textarea (optional)
+- ✓ Consent checkbox (required)
+- ✓ Submit and Reset buttons
+- ✓ Proper labels, fieldset, and legend
 
-## File Structure
+### Professional Styling
+- ✓ Warm bakery color palette (browns, tans, cream)
+- ✓ Responsive design (mobile, tablet, desktop)
+- ✓ Smooth transitions and hover effects
+- ✓ Accessible form inputs with focus states
+- ✓ Sticky navigation bar
+
+## 📁 Directory Structure
 
 ```
 north-star-bakery/
@@ -43,20 +51,32 @@ north-star-bakery/
 ├── products.html
 ├── about.html
 ├── contact.html
+├── styles.css
 ├── README.md
-├── images/
-│   ├── logo.svg
-│   ├── signature-loaf.jpg
-│   ├── storefront-full.jpg
-│   ├── storefront-medium.jpg
-│   └── storefront-small.jpg
-└── media/
-    └── welcome-message.mp3
+├── media/
+│   ├── bakery-video.mp4        (to be uploaded)
+│   └── welcome-message.mp3     (to be uploaded)
 ```
 
-## Notes
+## 🎬 Upload Your Media
 
-- No CSS or JavaScript included (pure semantic HTML)
-- All form inputs include built-in HTML validation
-- Image sources reference provided media files
-- Audio file provides welcome message from the baking team
+To add your video and audio:
+
+1. Go to: https://github.com/icalmith/north-star-bakery/upload/main
+2. Create a `media` folder
+3. Upload:
+   - `bakery-video.mp4` - Your bakery/sourdough video
+   - `welcome-message.mp3` - Audio welcome from the team
+
+## 🌐 View Live
+
+Your site is deployed on GitHub Pages:
+**https://icalmith.github.io/north-star-bakery/**
+
+## 📝 Notes
+
+- All form inputs include HTML5 validation attributes
+- No JavaScript required (uses native HTML form validation)
+- Images use embedded SVG placeholders until real images are uploaded
+- Video and audio paths reference the `media/` folder
+- Fully accessible with proper semantic markup

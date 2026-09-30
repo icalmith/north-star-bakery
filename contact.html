@@ -8,7 +8,26 @@
 </head>
 <body>
   <header>
-    <img src="https://raw.githubusercontent.com/icalmith/north-star-bakery/main/images/logo.svg" alt="North Star Bakery logo - a loaf of bread with wheat in a basket">
+    <svg width="120" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="basketGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#d4a574;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#c97f2d;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <g fill="none" stroke="url(#basketGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M 40 80 Q 40 60 60 50 L 140 50 Q 160 60 160 80 L 160 140 Q 160 160 140 160 L 60 160 Q 40 160 40 140 Z"/>
+        <g transform="translate(100, 90)">
+          <line x1="0" y1="-20" x2="0" y2="20" stroke="url(#basketGrad)" stroke-width="8"/>
+          <ellipse cx="-12" cy="-15" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="12" cy="-15" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="-12" cy="-5" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="12" cy="-5" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="-12" cy="5" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="12" cy="5" rx="6" ry="10" fill="url(#basketGrad)"/>
+        </g>
+      </g>
+    </svg>
     <h1>Contact Us</h1>
     <p>Get in touch or place a pre-order</p>
   </header>

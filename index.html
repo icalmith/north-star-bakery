@@ -8,7 +8,26 @@
 </head>
 <body>
   <header>
-    <img src="https://raw.githubusercontent.com/icalmith/north-star-bakery/main/images/logo.svg" alt="North Star Bakery logo - a loaf of bread with wheat in a basket">
+    <svg width="120" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="basketGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#d4a574;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#c97f2d;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <g fill="none" stroke="url(#basketGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M 40 80 Q 40 60 60 50 L 140 50 Q 160 60 160 80 L 160 140 Q 160 160 140 160 L 60 160 Q 40 160 40 140 Z"/>
+        <g transform="translate(100, 90)">
+          <line x1="0" y1="-20" x2="0" y2="20" stroke="url(#basketGrad)" stroke-width="8"/>
+          <ellipse cx="-12" cy="-15" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="12" cy="-15" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="-12" cy="-5" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="12" cy="-5" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="-12" cy="5" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="12" cy="5" rx="6" ry="10" fill="url(#basketGrad)"/>
+        </g>
+      </g>
+    </svg>
     <h1>North Star Bakery</h1>
     <p>Warm, handmade, community-centered baking</p>
   </header>
@@ -42,8 +61,11 @@
     <section>
       <h2>Featured Item of the Week</h2>
       <figure>
-        <img src="images/bread.jpg" alt="North Star Signature Sourdough - a rustic brown loaf with flour dusting and scoring details">
-        <figcaption>Our Signature Sourdough Loaf - naturally leavened with a crispy crust and open crumb structure</figcaption>
+        <video width="100%" height="auto" controls style="border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); background-color: #f0f0f0; min-height: 300px;">
+          <source src="media/bakery-video.mp4" type="video/mp4">
+          Your browser does not support the video element. Visit North Star Bakery in person to see our baking process!
+        </video>
+        <figcaption>Watch our bakers hand-shape and bake the North Star Signature Sourdough Loaf</figcaption>
       </figure>
       <p><strong>This week's special:</strong> Our Signature Sourdough, made with organic flour and our 15-year-old starter. This loaf features a perfectly crispy crust and a beautifully open crumb structure with subtle tangy notes. Each loaf is hand-shaped and baked fresh daily.</p>
       <p style="color: var(--accent-orange); font-weight: bold; margin-top: 1rem;">Pre-order now for weekend pickup! Limited quantities available.</p>
@@ -52,7 +74,7 @@
     <section>
       <h2>Behind the Scenes</h2>
       <p>Listen to a warm welcome message from our baking team:</p>
-      <audio controls>
+      <audio controls style="width: 100%; max-width: 500px; margin: 1.5rem 0;">
         <source src="media/welcome-message.mp3" type="audio/mpeg">
         Your browser does not support the audio element. Welcome message not available.
       </audio>
