@@ -8,20 +8,7 @@
 </head>
 <body>
   <header>
-    <svg width="120" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <g fill="none" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M 40 80 Q 40 60 60 50 L 140 50 Q 160 60 160 80 L 160 140 Q 160 160 140 160 L 60 160 Q 40 160 40 140 Z"/>
-        <g transform="translate(100, 90)">
-          <line x1="0" y1="-20" x2="0" y2="20" stroke="currentColor" stroke-width="8"/>
-          <ellipse cx="-12" cy="-15" rx="6" ry="10"/>
-          <ellipse cx="12" cy="-15" rx="6" ry="10"/>
-          <ellipse cx="-12" cy="-5" rx="6" ry="10"/>
-          <ellipse cx="12" cy="-5" rx="6" ry="10"/>
-          <ellipse cx="-12" cy="5" rx="6" ry="10"/>
-          <ellipse cx="12" cy="5" rx="6" ry="10"/>
-        </g>
-      </g>
-    </svg>
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='basketGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23d4a574;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23c97f2d;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='none' stroke='url(%23basketGrad)' stroke-width='12' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 40 80 Q 40 60 60 50 L 140 50 Q 160 60 160 80 L 160 140 Q 160 160 140 160 L 60 160 Q 40 160 40 140 Z'/%3E%3Cg transform='translate(100, 90)'%3E%3Cline x1='0' y1='-20' x2='0' y2='20' stroke='url(%23basketGrad)' stroke-width='8'/%3E%3Cellipse cx='-12' cy='-15' rx='6' ry='10' fill='url(%23basketGrad)'/%3E%3Cellipse cx='12' cy='-15' rx='6' ry='10' fill='url(%23basketGrad)'/%3E%3Cellipse cx='-12' cy='-5' rx='6' ry='10' fill='url(%23basketGrad)'/%3E%3Cellipse cx='12' cy='-5' rx='6' ry='10' fill='url(%23basketGrad)'/%3E%3Cellipse cx='-12' cy='5' rx='6' ry='10' fill='url(%23basketGrad)'/%3E%3Cellipse cx='12' cy='5' rx='6' ry='10' fill='url(%23basketGrad)'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E" alt="North Star Bakery logo - a loaf of bread with wheat in a basket">
     <h1>Contact Us</h1>
     <p>Get in touch or place a pre-order</p>
   </header>
@@ -38,39 +25,44 @@
   <main>
     <section>
       <h2>Hours of Operation</h2>
-      <p><strong>Tuesday - Sunday:</strong> 7:00 AM - 6:00 PM</p>
-      <p><strong>Monday:</strong> Closed</p>
-      <p>We bake fresh daily. Come early for the best selection!</p>
+      <p><strong>Tuesday - Friday:</strong> 7:00 AM - 7:00 PM</p>
+      <p><strong>Saturday - Sunday:</strong> 8:00 AM - 6:00 PM</p>
+      <p><strong>Monday:</strong> Closed (We recharge and plan for the week ahead!)</p>
+      <p style="margin-top: 1rem; font-style: italic; color: var(--text-light);">We bake fresh daily. Come early for the best selection! Pre-orders help us reserve your favorite items.</p>
     </section>
 
     <section>
-      <h2>Location & Phone</h2>
+      <h2>Location & Contact Information</h2>
       <p><strong>North Star Bakery</strong><br>
       42 Maple Street<br>
       Downtown<br>
-      Phone: (555) 123-4567<br>
-      Email: hello@northstarbakery.com</p>
+      <br>
+      <strong>Phone:</strong> (555) 123-4567<br>
+      <strong>Email:</strong> hello@northstarbakery.com<br>
+      <strong>Follow us:</strong> @northstarbakery on Instagram</p>
+      <p style="margin-top: 1rem; color: var(--text-light);">We're easy to find! Look for our warm brown storefront with the North Star sign on the corner of Maple and Main Street.</p>
     </section>
 
     <section>
       <h2>Inquiry & Pre-Order Form</h2>
+      <p>Have questions? Want to pre-order your favorite items? Fill out the form below and we'll get back to you within 24 hours.</p>
       <form>
         <fieldset>
           <legend>Pre-Order or Inquiry Request</legend>
 
           <div>
             <label for="name">Name *</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name" placeholder="Your full name" required>
           </div>
 
           <div>
             <label for="email">Email *</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
           </div>
 
           <div>
             <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone">
+            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
           </div>
 
           <div>
@@ -82,26 +74,28 @@
             <label for="request-type">Request Type *</label>
             <select id="request-type" name="request-type" required>
               <option value="">-- Select an option --</option>
-              <option value="pre-order">Pre-Order</option>
-              <option value="custom-order">Custom Order (Cake, Event)</option>
+              <option value="pre-order">Pre-Order (Bread, Pastries)</option>
+              <option value="custom-order">Custom Order (Wedding Cake, Special Event)</option>
               <option value="general-question">General Question</option>
               <option value="catering">Catering Inquiry</option>
+              <option value="wholesale">Wholesale / Corporate Orders</option>
+              <option value="classes">Baking Classes Inquiry</option>
             </select>
           </div>
 
           <div>
             <label for="item-details">Item Details or Special Requests *</label>
-            <textarea id="item-details" name="item-details" rows="4" placeholder="Tell us what you'd like to order or ask about..." required></textarea>
+            <textarea id="item-details" name="item-details" placeholder="Tell us what you'd like to order or ask about. For custom cakes, describe your vision!" required></textarea>
           </div>
 
           <div>
-            <label for="allergies">Allergy Notes</label>
-            <textarea id="allergies" name="allergies" rows="3" placeholder="Please let us know about any allergies or dietary restrictions..."></textarea>
+            <label for="allergies">Allergy Notes & Dietary Restrictions</label>
+            <textarea id="allergies" name="allergies" placeholder="Please let us know about any allergies or dietary restrictions. We offer gluten-free and vegan options!"></textarea>
           </div>
 
           <div>
             <input type="checkbox" id="consent" name="consent" required>
-            <label for="consent">I agree to be contacted via email or phone about my request</label>
+            <label for="consent">I agree to be contacted via email or phone about my request *</label>
           </div>
 
           <button type="submit">Submit Request</button>
@@ -113,6 +107,19 @@
     <section>
       <h2>Visit Us in Person</h2>
       <p>We love meeting our customers! Stop by our shop to browse fresh baked goods, chat with our bakers, and experience the warmth of North Star Bakery in person. We're always happy to discuss custom orders, answer questions, or share baking tips.</p>
+      <p style="margin-top: 1rem;"><strong>What to expect:</strong> The aroma of fresh bread, friendly faces, and the satisfaction of supporting a local business. Our shop is small but mighty, and we pride ourselves on personal attention to every customer.</p>
+    </section>
+
+    <section>
+      <h2>Wholesale & Corporate Catering</h2>
+      <p>Does your business or organization need fresh baked goods? We offer:</p>
+      <ul>
+        <li>Wholesale pricing for restaurants and cafes</li>
+        <li>Corporate catering for meetings and events</li>
+        <li>Custom party trays and bread boards</li>
+        <li>Special dietary accommodations</li>
+      </ul>
+      <p style="margin-top: 1rem;">Contact us directly for wholesale inquiries at <strong>(555) 123-4567</strong> or <strong>wholesale@northstarbakery.com</strong></p>
     </section>
   </main>
 
