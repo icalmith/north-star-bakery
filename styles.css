@@ -356,6 +356,33 @@ button[type="reset"]:hover,
   flex-wrap: wrap;
 }
 
+.coupon-section {
+  margin: 0 0 2rem;
+  padding: 1.5rem;
+  background-color: #f9f6f0;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.coupon-section h3 {
+  margin-top: 0;
+}
+
+.coupon-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.coupon-controls input {
+  flex: 1 1 12rem;
+}
+
+.coupon-controls button {
+  margin: 0;
+}
+
 #favorites-count {
   color: var(--text-light);
   font-weight: bold;

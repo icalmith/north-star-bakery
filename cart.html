@@ -43,10 +43,32 @@
           <tbody id="cart-items"></tbody>
         </table>
 
+        <div class="coupon-section">
+          <h3>Coupon Code</h3>
+          <p>Use <strong>WELCOME10</strong> for 10% off your order.</p>
+          <form id="coupon-form">
+            <label for="coupon-code">Enter coupon code</label>
+            <div class="coupon-controls">
+              <input type="text" id="coupon-code" name="coupon-code" autocomplete="off">
+              <button type="submit">Apply Coupon</button>
+              <button type="button" id="remove-coupon" class="secondary-button">Remove Coupon</button>
+            </div>
+          </form>
+          <p id="coupon-message" aria-live="polite"></p>
+        </div>
+
         <div style="background-color: #f9f6f0; padding: 2rem; border-radius: 8px; max-width: 400px; margin-left: auto;">
           <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border-color);">
             <strong style="color: var(--primary-brown);">Total Items:</strong>
             <span id="total-items">0</span>
+          </div>
+          <div id="bulk-savings-row" style="display: none; justify-content: space-between; margin-bottom: 1rem;">
+            <strong style="color: var(--primary-brown);">Pastry quantity savings:</strong>
+            <span id="bulk-savings"></span>
+          </div>
+          <div id="coupon-savings-row" style="display: none; justify-content: space-between; margin-bottom: 1rem;">
+            <strong style="color: var(--primary-brown);">Coupon savings:</strong>
+            <span id="coupon-savings"></span>
           </div>
           <div style="display: flex; justify-content: space-between;">
             <strong style="color: var(--primary-brown); font-size: 1.2rem;">Total:</strong>
@@ -69,6 +91,9 @@
 
   <script>
     const CART_STORAGE_KEY = 'north-star-bakery-cart';
+    const COUPON_STORAGE_KEY = 'north-star-bakery-coupon';
+    const VALID_COUPON = 'WELCOME10';
+    const COUPON_DISCOUNT = 0.10;
 
     function getStoredCart() {
       const raw = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '{}');
@@ -91,6 +116,17 @@
       return '$' + amount.toFixed(2);
     }
 
+    function getPastryDiscount(quantity) {
+      if (quantity >= 12) return 0.20;
+      if (quantity >= 6) return 0.15;
+      return 0;
+    }
+
+    function getAppliedCoupon() {
+      const coupon = localStorage.getItem(COUPON_STORAGE_KEY);
+      return coupon === VALID_COUPON ? coupon : '';
+    }
+
     function displayCart() {
       const cart = getStoredCart();
       saveCart(cart);
@@ -111,18 +147,24 @@
 
       let totalItems = 0;
       let totalCents = 0;
+      let bulkSavingsCents = 0;
 
       keys.forEach((key) => {
         const item = cart[key];
-        const subtotalCents = Math.round(item.price * 100) * item.quantity;
+        const regularSubtotalCents = Math.round(item.price * 100) * item.quantity;
+        const discount = item.size === 'single' ? getPastryDiscount(item.quantity) : 0;
+        const itemSavingsCents = Math.round(regularSubtotalCents * discount);
+        const subtotalCents = regularSubtotalCents - itemSavingsCents;
+        bulkSavingsCents += itemSavingsCents;
         totalItems += item.quantity;
         totalCents += subtotalCents;
 
         const label = item.sizeLabel ? ` (${item.sizeLabel})` : '';
+        const discountLabel = discount ? `<br><small>${Math.round(discount * 100)}% quantity discount applied</small>` : '';
         const row = document.createElement('tr');
         row.style.borderBottom = '1px solid var(--border-color)';
         row.innerHTML = `
-          <td style="padding: 1rem; color: var(--text-dark);">${item.productName}${label}</td>
+          <td style="padding: 1rem; color: var(--text-dark);">${item.productName}${label}${discountLabel}</td>
           <td style="text-align: center; padding: 1rem;">${item.quantity}</td>
           <td style="text-align: right; padding: 1rem;">${formatMoney(item.price)}</td>
           <td style="text-align: right; padding: 1rem; font-weight: bold;">${formatMoney(subtotalCents / 100)}</td>
@@ -134,7 +176,17 @@
       });
 
       document.getElementById('total-items').textContent = totalItems;
-      document.getElementById('total-price').textContent = formatMoney(totalCents / 100);
+      const coupon = getAppliedCoupon();
+      const couponSavingsCents = coupon ? Math.round(totalCents * COUPON_DISCOUNT) : 0;
+      const finalTotalCents = totalCents - couponSavingsCents;
+      document.getElementById('bulk-savings-row').style.display = bulkSavingsCents ? 'flex' : 'none';
+      document.getElementById('bulk-savings').textContent = formatMoney(bulkSavingsCents / 100);
+      document.getElementById('coupon-savings-row').style.display = couponSavingsCents ? 'flex' : 'none';
+      document.getElementById('coupon-savings').textContent = formatMoney(couponSavingsCents / 100);
+      document.getElementById('total-price').textContent = formatMoney(finalTotalCents / 100);
+      document.getElementById('coupon-code').value = coupon;
+      document.getElementById('remove-coupon').style.display = coupon ? '' : 'none';
+      document.getElementById('coupon-message').textContent = coupon ? `${coupon} applied: 10% off your order.` : '';
 
       document.querySelectorAll('.remove-btn').forEach((btn) => {
         btn.addEventListener('click', () => removeFromCart(btn.dataset.key));
@@ -147,6 +199,27 @@
       saveCart(cart);
       displayCart();
     }
+
+    document.getElementById('coupon-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const enteredCoupon = document.getElementById('coupon-code').value.trim().toUpperCase();
+      const message = document.getElementById('coupon-message');
+
+      if (enteredCoupon !== VALID_COUPON) {
+        message.textContent = getAppliedCoupon()
+          ? `Invalid code. Your existing ${VALID_COUPON} coupon remains applied.`
+          : 'That coupon code is not valid. Please check the code and try again.';
+        return;
+      }
+
+      localStorage.setItem(COUPON_STORAGE_KEY, VALID_COUPON);
+      displayCart();
+    });
+
+    document.getElementById('remove-coupon').addEventListener('click', () => {
+      localStorage.removeItem(COUPON_STORAGE_KEY);
+      displayCart();
+    });
 
     document.addEventListener('DOMContentLoaded', displayCart);
   </script>
