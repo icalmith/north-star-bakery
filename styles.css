@@ -7,6 +7,8 @@
   --text-light: #666666;
   --border-color: #e0d5c7;
   --accent-orange: #c97f2d;
+  --error-red: #b42318;
+  --error-light: #fff1f1;
 }
 
 * {
@@ -213,7 +215,7 @@ legend {
   padding: 0;
 }
 
-form div {
+.form-field {
   margin-bottom: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -258,24 +260,39 @@ textarea {
   font-family: 'Georgia', serif;
 }
 
+.input-error {
+  border-color: var(--error-red) !important;
+  background-color: var(--error-light);
+}
+
+.error-message {
+  min-height: 1.2rem;
+  color: var(--error-red);
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+  font-weight: bold;
+}
+
+.checkbox-field {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.checkbox-field label {
+  margin-bottom: 0;
+  font-weight: normal;
+  margin-top: 2px;
+}
+
 input[type="checkbox"] {
   width: 18px;
   height: 18px;
   margin-right: 0.75rem;
   cursor: pointer;
   accent-color: var(--accent-orange);
-}
-
-form div:has(input[type="checkbox"]) {
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 0.5rem;
-}
-
-form div:has(input[type="checkbox"]) label {
-  margin-bottom: 0;
-  font-weight: normal;
-  margin-top: 2px;
 }
 
 button {
@@ -302,12 +319,41 @@ button:active {
   transform: translateY(0);
 }
 
-button[type="reset"] {
+button[type="reset"],
+.secondary-button {
   background-color: var(--text-light);
 }
 
-button[type="reset"]:hover {
+button[type="reset"]:hover,
+.secondary-button:hover {
   background-color: var(--text-dark);
+}
+
+.favorite-button {
+  background-color: transparent;
+  color: var(--primary-brown);
+  border: 2px solid var(--primary-brown);
+  padding: 0.6rem 1rem;
+  margin-top: 0.75rem;
+}
+
+.favorite-button.active {
+  background-color: var(--primary-brown);
+  color: white;
+}
+
+.favorites-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+#favorites-count {
+  color: var(--text-light);
+  font-weight: bold;
 }
 
 footer {
@@ -427,6 +473,10 @@ footer p {
     width: 100%;
     margin-right: 0;
     margin-bottom: 0.5rem;
+  }
+
+  .favorite-button {
+    width: 100%;
   }
 
   figure img {
