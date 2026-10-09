@@ -136,7 +136,7 @@
     <section>
       <h2>Pastries</h2>
       <img src="images/bakery-feature-small_c.png" alt="Bakery feature small pastry selection" style="width: 100%; max-width: 700px; border-radius: 8px; margin-bottom: 1rem;">
-      <p>Our pastries are handmade daily and feature imported European butter for an authentic experience.</p>
+      <p>Our pastries are handmade daily and feature imported European butter for an authentic experience. Buy in bulk and save 15%!</p>
 
       <article class="favorite-item" data-product-id="butter-croissants">
         <h3>Butter Croissants</h3>
@@ -145,7 +145,8 @@
           <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
             <select class="size-select" data-product-id="butter-croissants" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
               <option value="single" data-price="3.50">Single - $3.50</option>
-              <option value="box-of-4" data-price="4.50">Box of 4 - $4.50</option>
+              <option value="half-dozen" data-price="17.93">Half Dozen - $17.93 (15% off)</option>
+              <option value="dozen" data-price="35.85">Dozen - $35.85 (15% off)</option>
             </select>
             <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
               <button type="button" class="qty-decrease" data-product-id="butter-croissants" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
@@ -160,12 +161,13 @@
 
       <article class="favorite-item" data-product-id="danish-variety-pack">
         <h3>Danish Variety Pack</h3>
-        <p>A selection of our finest Danish pastries including cherry, apple cinnamon, and cheese-filled options. Perfect for sharing or stocking your freezer. Includes 4 assorted pastries.</p>
+        <p>A selection of our finest Danish pastries including cherry, apple cinnamon, and cheese-filled options. Perfect for sharing or stocking your freezer.</p>
         <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
           <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
             <select class="size-select" data-product-id="danish-variety-pack" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
-              <option value="small" data-price="12.00">Small Box - $12.00</option>
-              <option value="large" data-price="15.00">Large Box - $15.00</option>
+              <option value="single" data-price="4.50">Single - $4.50</option>
+              <option value="half-dozen" data-price="23.01">Half Dozen - $23.01 (15% off)</option>
+              <option value="dozen" data-price="46.01">Dozen - $46.01 (15% off)</option>
             </select>
             <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
               <button type="button" class="qty-decrease" data-product-id="danish-variety-pack" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
@@ -185,7 +187,8 @@
           <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
             <select class="size-select" data-product-id="morning-glory-muffins" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
               <option value="single" data-price="2.50">Single - $2.50</option>
-              <option value="half-dozen" data-price="3.50">Half Dozen - $3.50</option>
+              <option value="half-dozen" data-price="12.75">Half Dozen - $12.75 (15% off)</option>
+              <option value="dozen" data-price="25.50">Dozen - $25.50 (15% off)</option>
             </select>
             <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
               <button type="button" class="qty-decrease" data-product-id="morning-glory-muffins" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
@@ -205,7 +208,8 @@
           <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
             <select class="size-select" data-product-id="pain-au-chocolat" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
               <option value="single" data-price="4.00">Single - $4.00</option>
-              <option value="box-of-2" data-price="5.00">Box of 2 - $5.00</option>
+              <option value="half-dozen" data-price="20.40">Half Dozen - $20.40 (15% off)</option>
+              <option value="dozen" data-price="40.80">Dozen - $40.80 (15% off)</option>
             </select>
             <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
               <button type="button" class="qty-decrease" data-product-id="pain-au-chocolat" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
@@ -409,7 +413,7 @@
           const productId = btn.dataset.productId;
           const productName = btn.dataset.productName;
           const qty = quantityState[productId] || 1;
-          const selectedSize = sizeState[productId] || 'small';
+          const selectedSize = sizeState[productId] || 'single';
           const sizeSelect = document.querySelector(`[data-product-id="${productId}"].size-select`);
           const selectedOption = sizeSelect.options[sizeSelect.selectedIndex];
           const price = parseFloat(selectedOption.dataset.price);
