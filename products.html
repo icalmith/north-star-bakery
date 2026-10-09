@@ -55,72 +55,80 @@
       <article class="favorite-item" data-product-id="signature-sourdough">
         <h3>Signature Sourdough</h3>
         <p>Our flagship loaf, naturally leavened with our 15-year-old starter. Perfect for toasting, sandwiches, or simply enjoying with butter. The slow fermentation creates a complex flavor profile and airy crumb that keeps customers coming back week after week.</p>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-          <button type="button" class="favorite-button" data-product-id="signature-sourdough" data-product-name="Signature Sourdough">♡ Favorite</button>
-          <select class="size-select" data-product-id="signature-sourdough" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
-            <option value="small" data-price="5.50">Small - $5.50</option>
-            <option value="large" data-price="6.50">Large - $6.50</option>
-          </select>
-          <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
-            <button type="button" class="qty-decrease" data-product-id="signature-sourdough" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
-            <span class="qty-display" data-product-id="signature-sourdough" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
-            <button type="button" class="qty-increase" data-product-id="signature-sourdough" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+            <select class="size-select" data-product-id="signature-sourdough" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
+              <option value="small" data-price="5.50">Small - $5.50</option>
+              <option value="large" data-price="6.50">Large - $6.50</option>
+            </select>
+            <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
+              <button type="button" class="qty-decrease" data-product-id="signature-sourdough" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
+              <span class="qty-display" data-product-id="signature-sourdough" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
+              <button type="button" class="qty-increase" data-product-id="signature-sourdough" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+            </div>
+            <button type="button" class="add-to-cart-btn" data-product-id="signature-sourdough" data-product-name="Signature Sourdough" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
           </div>
-          <button type="button" class="add-to-cart-btn" data-product-id="signature-sourdough" data-product-name="Signature Sourdough" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
+          <button type="button" class="favorite-button" data-product-id="signature-sourdough" data-product-name="Signature Sourdough" style="flex-shrink: 0;">♡ Favorite</button>
         </div>
       </article>
 
       <article class="favorite-item" data-product-id="whole-wheat-harvest">
         <h3>Whole Wheat Harvest</h3>
         <p>A hearty blend of organic whole wheat and rye, with a nutty flavor and satisfying texture. Great for everyday meals and packed with nutrition. This loaf pairs beautifully with cheese or soup for a comforting, wholesome meal.</p>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-          <button type="button" class="favorite-button" data-product-id="whole-wheat-harvest" data-product-name="Whole Wheat Harvest">♡ Favorite</button>
-          <select class="size-select" data-product-id="whole-wheat-harvest" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
-            <option value="small" data-price="5.00">Small - $5.00</option>
-            <option value="large" data-price="6.00">Large - $6.00</option>
-          </select>
-          <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
-            <button type="button" class="qty-decrease" data-product-id="whole-wheat-harvest" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
-            <span class="qty-display" data-product-id="whole-wheat-harvest" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
-            <button type="button" class="qty-increase" data-product-id="whole-wheat-harvest" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+            <select class="size-select" data-product-id="whole-wheat-harvest" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
+              <option value="small" data-price="5.00">Small - $5.00</option>
+              <option value="large" data-price="6.00">Large - $6.00</option>
+            </select>
+            <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
+              <button type="button" class="qty-decrease" data-product-id="whole-wheat-harvest" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
+              <span class="qty-display" data-product-id="whole-wheat-harvest" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
+              <button type="button" class="qty-increase" data-product-id="whole-wheat-harvest" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+            </div>
+            <button type="button" class="add-to-cart-btn" data-product-id="whole-wheat-harvest" data-product-name="Whole Wheat Harvest" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
           </div>
-          <button type="button" class="add-to-cart-btn" data-product-id="whole-wheat-harvest" data-product-name="Whole Wheat Harvest" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
+          <button type="button" class="favorite-button" data-product-id="whole-wheat-harvest" data-product-name="Whole Wheat Harvest" style="flex-shrink: 0;">♡ Favorite</button>
         </div>
       </article>
 
       <article class="favorite-item" data-product-id="focaccia">
         <h3>Focaccia</h3>
         <p>Rustic Italian-style flatbread topped with rosemary, sea salt, and olive oil. Perfect for dipping in soup or as a side to any meal. Light, airy crumb with a golden exterior.</p>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-          <button type="button" class="favorite-button" data-product-id="focaccia" data-product-name="Focaccia">♡ Favorite</button>
-          <select class="size-select" data-product-id="focaccia" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
-            <option value="small" data-price="4.50">Small - $4.50</option>
-            <option value="large" data-price="5.50">Large - $5.50</option>
-          </select>
-          <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
-            <button type="button" class="qty-decrease" data-product-id="focaccia" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
-            <span class="qty-display" data-product-id="focaccia" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
-            <button type="button" class="qty-increase" data-product-id="focaccia" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+            <select class="size-select" data-product-id="focaccia" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
+              <option value="small" data-price="4.50">Small - $4.50</option>
+              <option value="large" data-price="5.50">Large - $5.50</option>
+            </select>
+            <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
+              <button type="button" class="qty-decrease" data-product-id="focaccia" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
+              <span class="qty-display" data-product-id="focaccia" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
+              <button type="button" class="qty-increase" data-product-id="focaccia" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+            </div>
+            <button type="button" class="add-to-cart-btn" data-product-id="focaccia" data-product-name="Focaccia" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
           </div>
-          <button type="button" class="add-to-cart-btn" data-product-id="focaccia" data-product-name="Focaccia" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
+          <button type="button" class="favorite-button" data-product-id="focaccia" data-product-name="Focaccia" style="flex-shrink: 0;">♡ Favorite</button>
         </div>
       </article>
 
       <article class="favorite-item" data-product-id="ciabatta">
         <h3>Ciabatta</h3>
         <p>Open-crumb Italian bread with a crispy exterior and tender, chewy interior. Perfect for paninis and sandwiches. Traditionally shaped and baked to perfection.</p>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-          <button type="button" class="favorite-button" data-product-id="ciabatta" data-product-name="Ciabatta">♡ Favorite</button>
-          <select class="size-select" data-product-id="ciabatta" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
-            <option value="small" data-price="5.00">Small - $5.00</option>
-            <option value="large" data-price="6.00">Large - $6.00</option>
-          </select>
-          <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
-            <button type="button" class="qty-decrease" data-product-id="ciabatta" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
-            <span class="qty-display" data-product-id="ciabatta" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
-            <button type="button" class="qty-increase" data-product-id="ciabatta" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+            <select class="size-select" data-product-id="ciabatta" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
+              <option value="small" data-price="5.00">Small - $5.00</option>
+              <option value="large" data-price="6.00">Large - $6.00</option>
+            </select>
+            <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
+              <button type="button" class="qty-decrease" data-product-id="ciabatta" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
+              <span class="qty-display" data-product-id="ciabatta" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
+              <button type="button" class="qty-increase" data-product-id="ciabatta" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+            </div>
+            <button type="button" class="add-to-cart-btn" data-product-id="ciabatta" data-product-name="Ciabatta" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
           </div>
-          <button type="button" class="add-to-cart-btn" data-product-id="ciabatta" data-product-name="Ciabatta" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
+          <button type="button" class="favorite-button" data-product-id="ciabatta" data-product-name="Ciabatta" style="flex-shrink: 0;">♡ Favorite</button>
         </div>
       </article>
     </section>
@@ -133,72 +141,80 @@
       <article class="favorite-item" data-product-id="butter-croissants">
         <h3>Butter Croissants</h3>
         <p>Laminated to perfection with European butter. Flaky layers and buttery flavor make these a breakfast favorite. Each croissant is hand-shaped and baked fresh daily for optimal texture.</p>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-          <button type="button" class="favorite-button" data-product-id="butter-croissants" data-product-name="Butter Croissants">♡ Favorite</button>
-          <select class="size-select" data-product-id="butter-croissants" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
-            <option value="single" data-price="3.50">Single - $3.50</option>
-            <option value="box-of-4" data-price="4.50">Box of 4 - $4.50</option>
-          </select>
-          <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
-            <button type="button" class="qty-decrease" data-product-id="butter-croissants" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
-            <span class="qty-display" data-product-id="butter-croissants" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
-            <button type="button" class="qty-increase" data-product-id="butter-croissants" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+            <select class="size-select" data-product-id="butter-croissants" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
+              <option value="single" data-price="3.50">Single - $3.50</option>
+              <option value="box-of-4" data-price="4.50">Box of 4 - $4.50</option>
+            </select>
+            <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
+              <button type="button" class="qty-decrease" data-product-id="butter-croissants" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
+              <span class="qty-display" data-product-id="butter-croissants" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
+              <button type="button" class="qty-increase" data-product-id="butter-croissants" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+            </div>
+            <button type="button" class="add-to-cart-btn" data-product-id="butter-croissants" data-product-name="Butter Croissants" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
           </div>
-          <button type="button" class="add-to-cart-btn" data-product-id="butter-croissants" data-product-name="Butter Croissants" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
+          <button type="button" class="favorite-button" data-product-id="butter-croissants" data-product-name="Butter Croissants" style="flex-shrink: 0;">♡ Favorite</button>
         </div>
       </article>
 
       <article class="favorite-item" data-product-id="danish-variety-pack">
         <h3>Danish Variety Pack</h3>
         <p>A selection of our finest Danish pastries including cherry, apple cinnamon, and cheese-filled options. Perfect for sharing or stocking your freezer. Includes 4 assorted pastries.</p>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-          <button type="button" class="favorite-button" data-product-id="danish-variety-pack" data-product-name="Danish Variety Pack">♡ Favorite</button>
-          <select class="size-select" data-product-id="danish-variety-pack" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
-            <option value="small" data-price="12.00">Small Box - $12.00</option>
-            <option value="large" data-price="15.00">Large Box - $15.00</option>
-          </select>
-          <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
-            <button type="button" class="qty-decrease" data-product-id="danish-variety-pack" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
-            <span class="qty-display" data-product-id="danish-variety-pack" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
-            <button type="button" class="qty-increase" data-product-id="danish-variety-pack" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+            <select class="size-select" data-product-id="danish-variety-pack" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
+              <option value="small" data-price="12.00">Small Box - $12.00</option>
+              <option value="large" data-price="15.00">Large Box - $15.00</option>
+            </select>
+            <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
+              <button type="button" class="qty-decrease" data-product-id="danish-variety-pack" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
+              <span class="qty-display" data-product-id="danish-variety-pack" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
+              <button type="button" class="qty-increase" data-product-id="danish-variety-pack" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+            </div>
+            <button type="button" class="add-to-cart-btn" data-product-id="danish-variety-pack" data-product-name="Danish Variety Pack" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
           </div>
-          <button type="button" class="add-to-cart-btn" data-product-id="danish-variety-pack" data-product-name="Danish Variety Pack" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
+          <button type="button" class="favorite-button" data-product-id="danish-variety-pack" data-product-name="Danish Variety Pack" style="flex-shrink: 0;">♡ Favorite</button>
         </div>
       </article>
 
       <article class="favorite-item" data-product-id="morning-glory-muffins">
         <h3>Morning Glory Muffins</h3>
         <p>Packed with carrots, raisins, and walnuts. A wholesome treat perfect with your morning coffee. Made with whole grain flour and natural sweeteners for a healthier option.</p>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-          <button type="button" class="favorite-button" data-product-id="morning-glory-muffins" data-product-name="Morning Glory Muffins">♡ Favorite</button>
-          <select class="size-select" data-product-id="morning-glory-muffins" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
-            <option value="single" data-price="2.50">Single - $2.50</option>
-            <option value="half-dozen" data-price="3.50">Half Dozen - $3.50</option>
-          </select>
-          <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
-            <button type="button" class="qty-decrease" data-product-id="morning-glory-muffins" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
-            <span class="qty-display" data-product-id="morning-glory-muffins" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
-            <button type="button" class="qty-increase" data-product-id="morning-glory-muffins" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+            <select class="size-select" data-product-id="morning-glory-muffins" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
+              <option value="single" data-price="2.50">Single - $2.50</option>
+              <option value="half-dozen" data-price="3.50">Half Dozen - $3.50</option>
+            </select>
+            <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
+              <button type="button" class="qty-decrease" data-product-id="morning-glory-muffins" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
+              <span class="qty-display" data-product-id="morning-glory-muffins" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
+              <button type="button" class="qty-increase" data-product-id="morning-glory-muffins" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+            </div>
+            <button type="button" class="add-to-cart-btn" data-product-id="morning-glory-muffins" data-product-name="Morning Glory Muffins" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
           </div>
-          <button type="button" class="add-to-cart-btn" data-product-id="morning-glory-muffins" data-product-name="Morning Glory Muffins" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
+          <button type="button" class="favorite-button" data-product-id="morning-glory-muffins" data-product-name="Morning Glory Muffins" style="flex-shrink: 0;">♡ Favorite</button>
         </div>
       </article>
 
       <article class="favorite-item" data-product-id="pain-au-chocolat">
         <h3>Pain au Chocolat</h3>
         <p>French-style pastry with dark chocolate bars inside. Crispy exterior with a melting chocolate center. A decadent treat that's perfect for breakfast or dessert.</p>
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-          <button type="button" class="favorite-button" data-product-id="pain-au-chocolat" data-product-name="Pain au Chocolat">♡ Favorite</button>
-          <select class="size-select" data-product-id="pain-au-chocolat" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
-            <option value="single" data-price="4.00">Single - $4.00</option>
-            <option value="box-of-2" data-price="5.00">Box of 2 - $5.00</option>
-          </select>
-          <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
-            <button type="button" class="qty-decrease" data-product-id="pain-au-chocolat" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
-            <span class="qty-display" data-product-id="pain-au-chocolat" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
-            <button type="button" class="qty-increase" data-product-id="pain-au-chocolat" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+            <select class="size-select" data-product-id="pain-au-chocolat" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
+              <option value="single" data-price="4.00">Single - $4.00</option>
+              <option value="box-of-2" data-price="5.00">Box of 2 - $5.00</option>
+            </select>
+            <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
+              <button type="button" class="qty-decrease" data-product-id="pain-au-chocolat" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
+              <span class="qty-display" data-product-id="pain-au-chocolat" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
+              <button type="button" class="qty-increase" data-product-id="pain-au-chocolat" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+            </div>
+            <button type="button" class="add-to-cart-btn" data-product-id="pain-au-chocolat" data-product-name="Pain au Chocolat" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
           </div>
-          <button type="button" class="add-to-cart-btn" data-product-id="pain-au-chocolat" data-product-name="Pain au Chocolat" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Order</button>
+          <button type="button" class="favorite-button" data-product-id="pain-au-chocolat" data-product-name="Pain au Chocolat" style="flex-shrink: 0;">♡ Favorite</button>
         </div>
       </article>
     </section>
