@@ -93,8 +93,7 @@
   <script>
     const CART_STORAGE_KEY = 'north-star-bakery-cart';
     const COUPON_STORAGE_KEY = 'north-star-bakery-coupon';
-    const VALID_COUPON = 'WELCOME10';
-    const COUPON_DISCOUNT = 0.10;
+    const { couponCode: VALID_COUPON, couponDiscount: COUPON_DISCOUNT } = window.NorthStarBakeryPricing;
 
     function getStoredCart() {
       const raw = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '{}');
@@ -210,7 +209,9 @@
       document.getElementById('total-price').textContent = formatMoney(pricing.totalCents / 100);
       document.getElementById('coupon-code').value = coupon;
       document.getElementById('remove-coupon').style.display = coupon ? '' : 'none';
-      document.getElementById('coupon-message').textContent = coupon ? `${coupon} applied: 10% off your order.` : '';
+      document.getElementById('coupon-message').textContent = coupon
+        ? window.NorthStarBakeryPricing.validateCouponCode(coupon).message
+        : '';
 
       document.querySelectorAll('.remove-btn').forEach((btn) => {
         btn.addEventListener('click', () => removeFromCart(btn.dataset.key));
@@ -226,17 +227,18 @@
 
     document.getElementById('coupon-form').addEventListener('submit', (event) => {
       event.preventDefault();
-      const enteredCoupon = document.getElementById('coupon-code').value.trim().toUpperCase();
+      const coupon = window.NorthStarBakeryPricing.validateCouponCode(
+        document.getElementById('coupon-code').value,
+        getAppliedCoupon()
+      );
       const message = document.getElementById('coupon-message');
 
-      if (enteredCoupon !== VALID_COUPON) {
-        message.textContent = getAppliedCoupon()
-          ? `Invalid code. Your existing ${VALID_COUPON} coupon remains applied.`
-          : 'That coupon code is not valid. Please check the code and try again.';
+      if (!coupon.valid) {
+        message.textContent = coupon.message;
         return;
       }
 
-      localStorage.setItem(COUPON_STORAGE_KEY, VALID_COUPON);
+      localStorage.setItem(COUPON_STORAGE_KEY, coupon.code);
       displayCart();
     });
 

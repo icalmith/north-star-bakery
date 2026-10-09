@@ -3,6 +3,8 @@ const NorthStarBakeryPricing = (() => {
   const halfDozenDiscount = 0.15;
   const dozenQuantity = 12;
   const dozenDiscount = 0.20;
+  const couponCode = 'WELCOME10';
+  const couponDiscount = 0.10;
   const pastryProductIds = new Set([
     'butter-croissants',
     'danish-variety-pack',
@@ -51,15 +53,36 @@ const NorthStarBakeryPricing = (() => {
     };
   }
 
+  function validateCouponCode(enteredCode, appliedCoupon = '') {
+    if (String(enteredCode).trim().toUpperCase() === couponCode) {
+      return {
+        valid: true,
+        code: couponCode,
+        message: `${couponCode} applied: ${Math.round(couponDiscount * 100)}% off your order.`
+      };
+    }
+
+    return {
+      valid: false,
+      code: appliedCoupon,
+      message: appliedCoupon
+        ? `Invalid code. Your existing ${appliedCoupon} coupon remains applied.`
+        : 'That coupon code is not valid. Please check the code and try again.'
+    };
+  }
+
   return Object.freeze({
     halfDozenQuantity,
     halfDozenDiscount,
     dozenQuantity,
     dozenDiscount,
+    couponCode,
+    couponDiscount,
     bulkPrice(single, count, discount) {
       return Math.round(single * count * (1 - discount) * 100) / 100;
     },
     getPastryDiscount,
+    validateCouponCode,
     isPastryProduct(productId) {
       return pastryProductIds.has(productId);
     },
