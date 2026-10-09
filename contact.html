@@ -65,33 +65,37 @@
     <section>
       <h2>Inquiry & Pre-Order Form</h2>
       <p>Have questions? Want to pre-order your favorite items? Fill out the form below and we'll get back to you within 24 hours.</p>
-      <form>
+      <form id="contact-form" novalidate>
         <fieldset>
           <legend>Pre-Order or Inquiry Request</legend>
 
-          <div>
+          <div class="form-field">
             <label for="name">Name *</label>
-            <input type="text" id="name" name="name" placeholder="Your full name" required>
+            <input type="text" id="name" name="name" placeholder="Your full name">
+            <span class="error-message" id="name-error" aria-live="polite"></span>
           </div>
 
-          <div>
+          <div class="form-field">
             <label for="email">Email *</label>
-            <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+            <input type="email" id="email" name="email" placeholder="your.email@example.com">
+            <span class="error-message" id="email-error" aria-live="polite"></span>
           </div>
 
-          <div>
+          <div class="form-field">
             <label for="phone">Phone Number</label>
             <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
+            <span class="error-message" id="phone-error" aria-live="polite"></span>
           </div>
 
-          <div>
+          <div class="form-field">
             <label for="pickup-date">Desired Pickup Date *</label>
-            <input type="date" id="pickup-date" name="pickup-date" required>
+            <input type="date" id="pickup-date" name="pickup-date">
+            <span class="error-message" id="pickup-date-error" aria-live="polite"></span>
           </div>
 
-          <div>
+          <div class="form-field">
             <label for="request-type">Request Type *</label>
-            <select id="request-type" name="request-type" required>
+            <select id="request-type" name="request-type">
               <option value="">-- Select an option --</option>
               <option value="pre-order">Pre-Order (Bread, Pastries)</option>
               <option value="custom-order">Custom Order (Wedding Cake, Special Event)</option>
@@ -100,33 +104,31 @@
               <option value="wholesale">Wholesale / Corporate Orders</option>
               <option value="classes">Baking Classes Inquiry</option>
             </select>
+            <span class="error-message" id="request-type-error" aria-live="polite"></span>
           </div>
 
-          <div>
+          <div class="form-field">
             <label for="item-details">Item Details or Special Requests *</label>
-            <textarea id="item-details" name="item-details" placeholder="Tell us what you'd like to order or ask about. For custom cakes, describe your vision!" required></textarea>
+            <textarea id="item-details" name="item-details" placeholder="Tell us what you'd like to order or ask about. For custom cakes, describe your vision!"></textarea>
+            <span class="error-message" id="item-details-error" aria-live="polite"></span>
           </div>
 
-          <div>
-            <label for="allergies">Allergy Notes & Dietary Restrictions</label>
-            <textarea id="allergies" name="allergies" placeholder="Please let us know about any allergies or dietary restrictions. We offer gluten-free and vegan options!"></textarea>
-          </div>
-
-          <div>
-            <input type="checkbox" id="consent" name="consent" required>
+          <div class="form-field checkbox-field">
+            <input type="checkbox" id="consent" name="consent">
             <label for="consent">I agree to be contacted via email or phone about my request *</label>
+            <span class="error-message" id="consent-error" aria-live="polite"></span>
           </div>
 
           <button type="submit">Submit Request</button>
-          <button type="reset">Clear Form</button>
+          <button type="reset" class="secondary-button">Clear Form</button>
         </fieldset>
       </form>
     </section>
 
     <section>
       <h2>Visit Us in Person</h2>
-      <p>We love meeting our customers! Stop by our shop to browse fresh baked goods, chat with our bakers, and experience the warmth of North Star Bakery in person. We're always happy to discuss custom orders, answer questions, or share baking tips.</p>
-      <p style="margin-top: 1rem;"><strong>What to expect:</strong> The aroma of fresh bread, friendly faces, and the satisfaction of supporting a local business. Our shop is small but mighty, and we pride ourselves on personal attention to every customer.</p>
+      <p>We love meeting our customers! Stop by our shop to browse fresh baked goods, chat with our bakers, and experience the warmth of North Star Bakery in person. We're always happy to discuss special requests and seasonal favorites.</p>
+      <p style="margin-top: 1rem;"><strong>What to expect:</strong> The aroma of fresh bread, friendly faces, and the satisfaction of supporting a local business. Our shop is small but mighty, and each visit is filled with the comfort of handmade treats and a warm welcome.</p>
     </section>
 
     <section>
@@ -146,5 +148,140 @@
     <p>&copy; 2024 North Star Bakery. All rights reserved.</p>
     <p>Baked with love for our community.</p>
   </footer>
+
+  <script>
+    const form = document.getElementById('contact-form');
+
+    function setError(fieldId, message) {
+      const field = document.getElementById(fieldId);
+      const errorBox = document.getElementById(`${fieldId}-error`);
+
+      if (!field || !errorBox) return;
+
+      field.classList.toggle('input-error', Boolean(message));
+      errorBox.textContent = message;
+    }
+
+    function validateEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    function validateRequiredField(value) {
+      return value.trim().length > 0;
+    }
+
+    function validateDate(value) {
+      if (!value) return false;
+      const selectedDate = new Date(value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return selectedDate >= today;
+    }
+
+    function validateForm() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const pickupDate = document.getElementById('pickup-date').value;
+      const requestType = document.getElementById('request-type').value;
+      const itemDetails = document.getElementById('item-details').value;
+      const consent = document.getElementById('consent').checked;
+      let isValid = true;
+
+      if (!validateRequiredField(name)) {
+        setError('name', 'Please enter your full name.');
+        isValid = false;
+      } else if (name.trim().length < 2) {
+        setError('name', 'Name must be at least 2 characters long.');
+        isValid = false;
+      } else {
+        setError('name', '');
+      }
+
+      if (!validateRequiredField(email)) {
+        setError('email', 'Please enter your email address.');
+        isValid = false;
+      } else if (!validateEmail(email)) {
+        setError('email', 'Please enter a valid email address.');
+        isValid = false;
+      } else {
+        setError('email', '');
+      }
+
+      if (!validateRequiredField(pickupDate)) {
+        setError('pickup-date', 'Please choose a pickup date.');
+        isValid = false;
+      } else if (!validateDate(pickupDate)) {
+        setError('pickup-date', 'Pickup date cannot be in the past.');
+        isValid = false;
+      } else {
+        setError('pickup-date', '');
+      }
+
+      if (!validateRequiredField(requestType)) {
+        setError('request-type', 'Please select a request type.');
+        isValid = false;
+      } else {
+        setError('request-type', '');
+      }
+
+      if (!validateRequiredField(itemDetails)) {
+        setError('item-details', 'Please describe what you would like to order or ask about.');
+        isValid = false;
+      } else if (itemDetails.trim().length < 10) {
+        setError('item-details', 'Please provide at least 10 characters so we can help you better.');
+        isValid = false;
+      } else {
+        setError('item-details', '');
+      }
+
+      if (!consent) {
+        setError('consent', 'You must agree before submitting your request.');
+        isValid = false;
+      } else {
+        setError('consent', '');
+      }
+
+      return isValid;
+    }
+
+    function clearFieldErrors() {
+      ['name', 'email', 'pickup-date', 'request-type', 'item-details', 'consent'].forEach((fieldId) => {
+        setError(fieldId, '');
+      });
+    }
+
+    if (form) {
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        if (!validateForm()) {
+          return;
+        }
+
+        const firstName = document.getElementById('name').value.trim().split(' ')[0];
+        alert(`Thank you, ${firstName}! Your request has been submitted successfully.`);
+        form.reset();
+        clearFieldErrors();
+      });
+
+      const fieldsToWatch = ['name', 'email', 'pickup-date', 'request-type', 'item-details', 'consent'];
+      fieldsToWatch.forEach((fieldId) => {
+        const field = document.getElementById(fieldId);
+        if (!field) return;
+
+        field.addEventListener('input', function () {
+          if (fieldId === 'consent') {
+            setError('consent', '');
+            return;
+          }
+          validateForm();
+        });
+
+        field.addEventListener('change', function () {
+          validateForm();
+        });
+      });
+    }
+  </script>
 </body>
 </html>
