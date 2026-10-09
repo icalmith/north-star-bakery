@@ -121,10 +121,6 @@
       { id: 'pain-au-chocolat', type: 'pastry', name: 'Pain au Chocolat', description: 'French-style pastry with dark chocolate bars inside. Crispy exterior with a melting chocolate center. A decadent treat that\'s perfect for breakfast or dessert.', single: 4.00 }
     ];
 
-    function roundMoney(value) {
-      return Math.round(value * 100) / 100;
-    }
-
     function getBreadOptions(p) {
       return [
         { value: 'small', label: 'Small', price: p.small },
@@ -135,8 +131,8 @@
     function getPastryOptions(p) {
       return [
         { value: 'single', label: 'Single', price: p.single },
-        { value: 'half-dozen', label: 'Half Dozen', price: bulkPrice(p.single, halfDozenQuantity, halfDozenDiscount), note: '15% off' },
-        { value: 'dozen', label: 'Dozen', price: bulkPrice(p.single, dozenQuantity, dozenDiscount), note: '20% off' }
+        { value: 'half-dozen', label: 'Half Dozen', price: bulkPrice(p.single, halfDozenQuantity, halfDozenDiscount), note: `${Math.round(halfDozenDiscount * 100)}% off` },
+        { value: 'dozen', label: 'Dozen', price: bulkPrice(p.single, dozenQuantity, dozenDiscount), note: `${Math.round(dozenDiscount * 100)}% off` }
       ];
     }
 

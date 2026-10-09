@@ -143,6 +143,14 @@
       let totalItems = 0;
       let totalCents = 0;
       let bulkSavingsCents = 0;
+      const pastryQuantity = keys.reduce((total, key) => {
+        const item = cart[key];
+        const isPastry = item.productType
+          ? item.productType === 'pastry'
+          : window.NorthStarBakeryPricing.isPastryProduct(item.productId);
+        return total + (isPastry && item.size === 'single' ? item.quantity : 0);
+      }, 0);
+      const pastryDiscount = window.NorthStarBakeryPricing.getPastryDiscount(pastryQuantity);
 
       keys.forEach((key) => {
         const item = cart[key];
@@ -150,9 +158,7 @@
         const isPastry = item.productType
           ? item.productType === 'pastry'
           : window.NorthStarBakeryPricing.isPastryProduct(item.productId);
-        const discount = isPastry && item.size === 'single'
-          ? window.NorthStarBakeryPricing.getPastryDiscount(item.quantity)
-          : 0;
+        const discount = isPastry && item.size === 'single' ? pastryDiscount : 0;
         const itemSavingsCents = Math.round(regularSubtotalCents * discount);
         const subtotalCents = regularSubtotalCents - itemSavingsCents;
         bulkSavingsCents += itemSavingsCents;
