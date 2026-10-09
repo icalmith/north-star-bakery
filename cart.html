@@ -117,6 +117,13 @@
       return '$' + amount.toFixed(2);
     }
 
+    function createCartCell(text, style) {
+      const cell = document.createElement('td');
+      Object.assign(cell.style, style);
+      cell.textContent = text;
+      return cell;
+    }
+
     function getAppliedCoupon() {
       const coupon = localStorage.getItem(COUPON_STORAGE_KEY);
       return coupon === VALID_COUPON ? coupon : '';
@@ -141,55 +148,66 @@
       cartItems.innerHTML = '';
 
       let totalItems = 0;
-      let totalCents = 0;
-      let bulkSavingsCents = 0;
-      const pastryQuantity = keys.reduce((total, key) => {
-        const item = cart[key];
-        const isPastry = item.productType
-          ? item.productType === 'pastry'
-          : window.NorthStarBakeryPricing.isPastryProduct(item.productId);
-        return total + (isPastry && item.size === 'single' ? item.quantity : 0);
-      }, 0);
-      const pastryDiscount = window.NorthStarBakeryPricing.getPastryDiscount(pastryQuantity);
+      const coupon = getAppliedCoupon();
+      const pricing = window.NorthStarBakeryPricing.calculateCartPricing(
+        keys.map((key) => cart[key]),
+        coupon ? COUPON_DISCOUNT : 0
+      );
 
-      keys.forEach((key) => {
+      keys.forEach((key, index) => {
         const item = cart[key];
-        const regularSubtotalCents = Math.round(item.price * 100) * item.quantity;
-        const isPastry = item.productType
-          ? item.productType === 'pastry'
-          : window.NorthStarBakeryPricing.isPastryProduct(item.productId);
-        const discount = isPastry && item.size === 'single' ? pastryDiscount : 0;
-        const itemSavingsCents = Math.round(regularSubtotalCents * discount);
-        const subtotalCents = regularSubtotalCents - itemSavingsCents;
-        bulkSavingsCents += itemSavingsCents;
+        const linePricing = pricing.lines[index];
         totalItems += item.quantity;
-        totalCents += subtotalCents;
 
         const label = item.sizeLabel ? ` (${item.sizeLabel})` : '';
-        const discountLabel = discount ? `<br><small>${Math.round(discount * 100)}% quantity discount applied</small>` : '';
         const row = document.createElement('tr');
         row.style.borderBottom = '1px solid var(--border-color)';
-        row.innerHTML = `
-          <td style="padding: 1rem; color: var(--text-dark);">${item.productName}${label}${discountLabel}</td>
-          <td style="text-align: center; padding: 1rem;">${item.quantity}</td>
-          <td style="text-align: right; padding: 1rem;">${formatMoney(item.price)}</td>
-          <td style="text-align: right; padding: 1rem; font-weight: bold;">${formatMoney(subtotalCents / 100)}</td>
-          <td style="text-align: center; padding: 1rem;">
-            <button type="button" class="remove-btn" data-key="${key}" style="background-color: var(--error-red); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 0;">Remove</button>
-          </td>
-        `;
+        const productCell = createCartCell(`${item.productName || ''}${label}`, {
+          padding: '1rem',
+          color: 'var(--text-dark)'
+        });
+        if (linePricing.discount) {
+          productCell.appendChild(document.createElement('br'));
+          const discountNote = document.createElement('small');
+          discountNote.textContent = `${Math.round(linePricing.discount * 100)}% quantity discount applied`;
+          productCell.appendChild(discountNote);
+        }
+
+        const quantityCell = createCartCell(item.quantity, { textAlign: 'center', padding: '1rem' });
+        const priceCell = createCartCell(formatMoney(item.price), { textAlign: 'right', padding: '1rem' });
+        const subtotalCell = createCartCell(formatMoney(linePricing.subtotalCents / 100), {
+          textAlign: 'right',
+          padding: '1rem',
+          fontWeight: 'bold'
+        });
+        const actionCell = document.createElement('td');
+        Object.assign(actionCell.style, { textAlign: 'center', padding: '1rem' });
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.className = 'remove-btn';
+        removeButton.dataset.key = key;
+        removeButton.textContent = 'Remove';
+        Object.assign(removeButton.style, {
+          backgroundColor: 'var(--error-red)',
+          color: 'white',
+          border: 'none',
+          padding: '0.5rem 1rem',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          fontWeight: 'bold',
+          margin: '0'
+        });
+        actionCell.appendChild(removeButton);
+        row.append(productCell, quantityCell, priceCell, subtotalCell, actionCell);
         cartItems.appendChild(row);
       });
 
       document.getElementById('total-items').textContent = totalItems;
-      const coupon = getAppliedCoupon();
-      const couponSavingsCents = coupon ? Math.round(totalCents * COUPON_DISCOUNT) : 0;
-      const finalTotalCents = totalCents - couponSavingsCents;
-      document.getElementById('bulk-savings-row').style.display = bulkSavingsCents ? 'flex' : 'none';
-      document.getElementById('bulk-savings').textContent = formatMoney(bulkSavingsCents / 100);
-      document.getElementById('coupon-savings-row').style.display = couponSavingsCents ? 'flex' : 'none';
-      document.getElementById('coupon-savings').textContent = formatMoney(couponSavingsCents / 100);
-      document.getElementById('total-price').textContent = formatMoney(finalTotalCents / 100);
+      document.getElementById('bulk-savings-row').style.display = pricing.bulkSavingsCents ? 'flex' : 'none';
+      document.getElementById('bulk-savings').textContent = formatMoney(pricing.bulkSavingsCents / 100);
+      document.getElementById('coupon-savings-row').style.display = pricing.couponSavingsCents ? 'flex' : 'none';
+      document.getElementById('coupon-savings').textContent = formatMoney(pricing.couponSavingsCents / 100);
+      document.getElementById('total-price').textContent = formatMoney(pricing.totalCents / 100);
       document.getElementById('coupon-code').value = coupon;
       document.getElementById('remove-coupon').style.display = coupon ? '' : 'none';
       document.getElementById('coupon-message').textContent = coupon ? `${coupon} applied: 10% off your order.` : '';
