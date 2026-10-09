@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Products - North Star Bakery</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="pricing.js"></script>
 </head>
 <body>
   <header>
@@ -103,30 +104,25 @@
   <script>
     const CART_STORAGE_KEY = 'north-star-bakery-cart';
     const STORAGE_KEY = 'north-star-bakery-favorites';
-    const HALF_DOZEN_DISCOUNT = 0.15;
-    const DOZEN_DISCOUNT = 0.20;
+    const { halfDozenQuantity, halfDozenDiscount, dozenQuantity, dozenDiscount, bulkPrice } = window.NorthStarBakeryPricing;
 
     // ---------- Product data (all prices are calculated from this) ----------
     const breads = [
-      { id: 'signature-sourdough', name: 'Signature Sourdough', description: 'Our flagship loaf, naturally leavened with our 15-year-old starter. Perfect for toasting, sandwiches, or simply enjoying with butter. The slow fermentation creates a complex flavor profile and airy crumb that keeps customers coming back week after week.', small: 5.50, large: 6.50 },
-      { id: 'whole-wheat-harvest', name: 'Whole Wheat Harvest', description: 'A hearty blend of organic whole wheat and rye, with a nutty flavor and satisfying texture. Great for everyday meals and packed with nutrition. This loaf pairs beautifully with cheese or soup for a comforting, wholesome meal.', small: 5.00, large: 6.00 },
-      { id: 'focaccia', name: 'Focaccia', description: 'Rustic Italian-style flatbread topped with rosemary, sea salt, and olive oil. Perfect for dipping in soup or as a side to any meal. Light, airy crumb with a golden exterior.', small: 4.50, large: 5.50 },
-      { id: 'ciabatta', name: 'Ciabatta', description: 'Open-crumb Italian bread with a crispy exterior and tender, chewy interior. Perfect for paninis and sandwiches. Traditionally shaped and baked to perfection.', small: 5.00, large: 6.00 }
+      { id: 'signature-sourdough', type: 'bread', name: 'Signature Sourdough', description: 'Our flagship loaf, naturally leavened with our 15-year-old starter. Perfect for toasting, sandwiches, or simply enjoying with butter. The slow fermentation creates a complex flavor profile and airy crumb that keeps customers coming back week after week.', small: 5.50, large: 6.50 },
+      { id: 'whole-wheat-harvest', type: 'bread', name: 'Whole Wheat Harvest', description: 'A hearty blend of organic whole wheat and rye, with a nutty flavor and satisfying texture. Great for everyday meals and packed with nutrition. This loaf pairs beautifully with cheese or soup for a comforting, wholesome meal.', small: 5.00, large: 6.00 },
+      { id: 'focaccia', type: 'bread', name: 'Focaccia', description: 'Rustic Italian-style flatbread topped with rosemary, sea salt, and olive oil. Perfect for dipping in soup or as a side to any meal. Light, airy crumb with a golden exterior.', small: 4.50, large: 5.50 },
+      { id: 'ciabatta', type: 'bread', name: 'Ciabatta', description: 'Open-crumb Italian bread with a crispy exterior and tender, chewy interior. Perfect for paninis and sandwiches. Traditionally shaped and baked to perfection.', small: 5.00, large: 6.00 }
     ];
 
     const pastries = [
-      { id: 'butter-croissants', name: 'Butter Croissants', description: 'Laminated to perfection with European butter. Flaky layers and buttery flavor make these a breakfast favorite. Each croissant is hand-shaped and baked fresh daily for optimal texture.', single: 3.50 },
-      { id: 'danish-variety-pack', name: 'Danish Variety Pack', description: 'A selection of our finest Danish pastries including cherry, apple cinnamon, and cheese-filled options. Perfect for sharing or stocking your freezer.', single: 4.50 },
-      { id: 'morning-glory-muffins', name: 'Morning Glory Muffins', description: 'Packed with carrots, raisins, and walnuts. A wholesome treat perfect with your morning coffee. Made with whole grain flour and natural sweeteners for a healthier option.', single: 2.50 },
-      { id: 'pain-au-chocolat', name: 'Pain au Chocolat', description: 'French-style pastry with dark chocolate bars inside. Crispy exterior with a melting chocolate center. A decadent treat that\'s perfect for breakfast or dessert.', single: 4.00 }
+      { id: 'butter-croissants', type: 'pastry', name: 'Butter Croissants', description: 'Laminated to perfection with European butter. Flaky layers and buttery flavor make these a breakfast favorite. Each croissant is hand-shaped and baked fresh daily for optimal texture.', single: 3.50 },
+      { id: 'danish-variety-pack', type: 'pastry', name: 'Danish Variety Pack', description: 'A selection of our finest Danish pastries including cherry, apple cinnamon, and cheese-filled options. Perfect for sharing or stocking your freezer.', single: 4.50 },
+      { id: 'morning-glory-muffins', type: 'pastry', name: 'Morning Glory Muffins', description: 'Packed with carrots, raisins, and walnuts. A wholesome treat perfect with your morning coffee. Made with whole grain flour and natural sweeteners for a healthier option.', single: 2.50 },
+      { id: 'pain-au-chocolat', type: 'pastry', name: 'Pain au Chocolat', description: 'French-style pastry with dark chocolate bars inside. Crispy exterior with a melting chocolate center. A decadent treat that\'s perfect for breakfast or dessert.', single: 4.00 }
     ];
 
     function roundMoney(value) {
       return Math.round(value * 100) / 100;
-    }
-
-    function bulkPrice(single, count, discount) {
-      return roundMoney(single * count * (1 - discount));
     }
 
     function getBreadOptions(p) {
@@ -139,8 +135,8 @@
     function getPastryOptions(p) {
       return [
         { value: 'single', label: 'Single', price: p.single },
-        { value: 'half-dozen', label: 'Half Dozen', price: bulkPrice(p.single, 6, HALF_DOZEN_DISCOUNT), note: '15% off' },
-        { value: 'dozen', label: 'Dozen', price: bulkPrice(p.single, 12, DOZEN_DISCOUNT), note: '20% off' }
+        { value: 'half-dozen', label: 'Half Dozen', price: bulkPrice(p.single, halfDozenQuantity, halfDozenDiscount), note: '15% off' },
+        { value: 'dozen', label: 'Dozen', price: bulkPrice(p.single, dozenQuantity, dozenDiscount), note: '20% off' }
       ];
     }
 
@@ -162,7 +158,7 @@
                 <span class="qty-display" data-product-id="${p.id}" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
                 <button type="button" class="qty-increase" data-product-id="${p.id}" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 0; padding: 0;">+</button>
               </div>
-              <button type="button" class="add-to-cart-btn" data-product-id="${p.id}" data-product-name="${p.name}" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 0;">Add to Order</button>
+              <button type="button" class="add-to-cart-btn" data-product-id="${p.id}" data-product-type="${p.type}" data-product-name="${p.name}" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 0;">Add to Order</button>
             </div>
             <button type="button" class="favorite-button" data-product-id="${p.id}" data-product-name="${p.name}" style="flex-shrink: 0; margin: 0;">♡ Favorite</button>
           </div>
@@ -183,12 +179,12 @@
       localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
     }
 
-    function addToCart(productId, size, sizeLabel, quantity, price, productName) {
+    function addToCart(productId, productType, size, sizeLabel, quantity, price, productName) {
       if (quantity <= 0) return;
       const cart = getStoredCart();
       const itemKey = `${productId}-${size}`;
       const existing = cart[itemKey] && typeof cart[itemKey] === 'object' ? cart[itemKey].quantity : 0;
-      cart[itemKey] = { productId, size, sizeLabel, productName, price, quantity: existing + quantity };
+      cart[itemKey] = { productId, productType, size, sizeLabel, productName, price, quantity: existing + quantity };
       saveCart(cart);
     }
 
@@ -222,7 +218,7 @@
           const option = select.options[select.selectedIndex];
           const price = parseFloat(option.dataset.price);
 
-          addToCart(id, select.value, option.dataset.label, qty, price, btn.dataset.productName);
+          addToCart(id, btn.dataset.productType, select.value, option.dataset.label, qty, price, btn.dataset.productName);
           alert(`${qty} × ${btn.dataset.productName} (${option.dataset.label}) added to your order!`);
 
           quantityState[id] = 1;

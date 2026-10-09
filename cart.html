@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shopping Cart - North Star Bakery</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="pricing.js"></script>
 </head>
 <body>
   <header>
@@ -116,12 +117,6 @@
       return '$' + amount.toFixed(2);
     }
 
-    function getPastryDiscount(quantity) {
-      if (quantity >= 12) return 0.20;
-      if (quantity >= 6) return 0.15;
-      return 0;
-    }
-
     function getAppliedCoupon() {
       const coupon = localStorage.getItem(COUPON_STORAGE_KEY);
       return coupon === VALID_COUPON ? coupon : '';
@@ -152,7 +147,12 @@
       keys.forEach((key) => {
         const item = cart[key];
         const regularSubtotalCents = Math.round(item.price * 100) * item.quantity;
-        const discount = item.size === 'single' ? getPastryDiscount(item.quantity) : 0;
+        const isPastry = item.productType
+          ? item.productType === 'pastry'
+          : window.NorthStarBakeryPricing.isPastryProduct(item.productId);
+        const discount = isPastry && item.size === 'single'
+          ? window.NorthStarBakeryPricing.getPastryDiscount(item.quantity)
+          : 0;
         const itemSavingsCents = Math.round(regularSubtotalCents * discount);
         const subtotalCents = regularSubtotalCents - itemSavingsCents;
         bulkSavingsCents += itemSavingsCents;
