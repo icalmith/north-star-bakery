@@ -38,6 +38,7 @@
       <li><a href="products.html">Products</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html" style="background-color: var(--accent-orange); color: white;">🛒 Cart</a></li>
     </ul>
   </nav>
 
@@ -65,7 +66,15 @@
         <figcaption>Our Signature Loaf - naturally leavened with a crispy crust and open crumb structure</figcaption>
       </figure>
       <p><strong>This week's special:</strong> Our Signature Loaf, made with organic flour and our 15-year-old starter. This loaf features a perfectly crispy crust and a beautifully open crumb structure that showcases the depth of flavor developed through our traditional fermentation process.</p>
-      <p style="color: var(--accent-orange); font-weight: bold; margin-top: 1rem;">Pre-order now for weekend pickup! Limited quantities available.</p>
+      <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; align-items: center;">
+        <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
+          <button type="button" id="decrease-featured" style="background-color: var(--accent-orange); color: white; border: none; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; font-weight: bold;">−</button>
+          <span id="featured-qty" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
+          <button type="button" id="increase-featured" style="background-color: var(--accent-orange); color: white; border: none; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; font-weight: bold;">+</button>
+        </div>
+        <button type="button" id="add-featured-to-cart" style="background-color: var(--primary-brown); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Add to Cart</button>
+      </div>
+      <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 1rem;">Limited quantities available. Pre-order for weekend pickup!</p>
     </section>
 
     <section>
@@ -96,5 +105,52 @@
     <p>&copy; 2024 North Star Bakery. All rights reserved.</p>
     <p>Baked with love for our community.</p>
   </footer>
+
+  <script>
+    const CART_STORAGE_KEY = 'north-star-bakery-cart';
+    const FEATURED_PRODUCT_ID = 'signature-sourdough';
+
+    function getStoredCart() {
+      const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '{}');
+      return cart;
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    }
+
+    function addToCart(productId, quantity) {
+      if (quantity <= 0) return;
+      const cart = getStoredCart();
+      cart[productId] = (cart[productId] || 0) + quantity;
+      saveCart(cart);
+    }
+
+    let featuredQuantity = 1;
+
+    const decreaseFeaturedBtn = document.getElementById('decrease-featured');
+    const increaseFeaturedBtn = document.getElementById('increase-featured');
+    const featuredQtySpan = document.getElementById('featured-qty');
+    const addFeaturedBtn = document.getElementById('add-featured-to-cart');
+
+    decreaseFeaturedBtn.addEventListener('click', () => {
+      if (featuredQuantity > 1) {
+        featuredQuantity--;
+        featuredQtySpan.textContent = featuredQuantity;
+      }
+    });
+
+    increaseFeaturedBtn.addEventListener('click', () => {
+      featuredQuantity++;
+      featuredQtySpan.textContent = featuredQuantity;
+    });
+
+    addFeaturedBtn.addEventListener('click', () => {
+      addToCart(FEATURED_PRODUCT_ID, featuredQuantity);
+      alert(`${featuredQuantity} Signature Loaf(ves) added to cart!`);
+      featuredQuantity = 1;
+      featuredQtySpan.textContent = featuredQuantity;
+    });
+  </script>
 </body>
 </html>
