@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shopping Cart - North Star Bakery</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="pricing.js"></script>
 </head>
 <body>
   <header>
@@ -18,7 +19,7 @@
       <li><a href="products.html">Products</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="cart.html" style="background-color: var(--accent-orange); color: white;">🛒 Cart</a></li>
+      <li><a href="cart.html" class="active" aria-current="page">🛒 Cart</a></li>
     </ul>
   </nav>
 
@@ -43,10 +44,32 @@
           <tbody id="cart-items"></tbody>
         </table>
 
+        <div class="coupon-section">
+          <h3>Coupon Code</h3>
+          <p>Use <strong>WELCOME10</strong> for 10% off your order.</p>
+          <form id="coupon-form">
+            <label for="coupon-code">Enter coupon code</label>
+            <div class="coupon-controls">
+              <input type="text" id="coupon-code" name="coupon-code" autocomplete="off">
+              <button type="submit">Apply Coupon</button>
+              <button type="button" id="remove-coupon" class="secondary-button">Remove Coupon</button>
+            </div>
+          </form>
+          <p id="coupon-message" aria-live="polite"></p>
+        </div>
+
         <div style="background-color: #f9f6f0; padding: 2rem; border-radius: 8px; max-width: 400px; margin-left: auto;">
           <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border-color);">
             <strong style="color: var(--primary-brown);">Total Items:</strong>
             <span id="total-items">0</span>
+          </div>
+          <div id="bulk-savings-row" style="display: none; justify-content: space-between; margin-bottom: 1rem;">
+            <strong style="color: var(--primary-brown);">Pastry quantity savings:</strong>
+            <span id="bulk-savings"></span>
+          </div>
+          <div id="coupon-savings-row" style="display: none; justify-content: space-between; margin-bottom: 1rem;">
+            <strong style="color: var(--primary-brown);">Coupon savings:</strong>
+            <span id="coupon-savings"></span>
           </div>
           <div style="display: flex; justify-content: space-between;">
             <strong style="color: var(--primary-brown); font-size: 1.2rem;">Total:</strong>
@@ -69,6 +92,8 @@
 
   <script>
     const CART_STORAGE_KEY = 'north-star-bakery-cart';
+    const COUPON_STORAGE_KEY = 'north-star-bakery-coupon';
+    const { couponCode: VALID_COUPON, couponDiscount: COUPON_DISCOUNT } = window.NorthStarBakeryPricing;
 
     function getStoredCart() {
       const raw = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '{}');
@@ -76,7 +101,9 @@
       // Keep only valid entries (ignores old-format entries that had no price)
       Object.keys(raw).forEach((key) => {
         const item = raw[key];
-        if (item && typeof item === 'object' && item.quantity > 0 && typeof item.price === 'number') {
+        if (item && typeof item === 'object'
+          && Number.isSafeInteger(item.quantity) && item.quantity > 0
+          && typeof item.price === 'number' && Number.isFinite(item.price) && item.price > 0) {
           cart[key] = item;
         }
       });
@@ -89,6 +116,18 @@
 
     function formatMoney(amount) {
       return '$' + amount.toFixed(2);
+    }
+
+    function createCartCell(text, style) {
+      const cell = document.createElement('td');
+      Object.assign(cell.style, style);
+      cell.textContent = text;
+      return cell;
+    }
+
+    function getAppliedCoupon() {
+      const coupon = localStorage.getItem(COUPON_STORAGE_KEY);
+      return coupon === VALID_COUPON ? coupon : '';
     }
 
     function displayCart() {
@@ -110,31 +149,71 @@
       cartItems.innerHTML = '';
 
       let totalItems = 0;
-      let totalCents = 0;
+      const coupon = getAppliedCoupon();
+      const pricing = window.NorthStarBakeryPricing.calculateCartPricing(
+        keys.map((key) => cart[key]),
+        coupon ? COUPON_DISCOUNT : 0
+      );
 
-      keys.forEach((key) => {
+      keys.forEach((key, index) => {
         const item = cart[key];
-        const subtotalCents = Math.round(item.price * 100) * item.quantity;
+        const linePricing = pricing.lines[index];
         totalItems += item.quantity;
-        totalCents += subtotalCents;
 
         const label = item.sizeLabel ? ` (${item.sizeLabel})` : '';
         const row = document.createElement('tr');
         row.style.borderBottom = '1px solid var(--border-color)';
-        row.innerHTML = `
-          <td style="padding: 1rem; color: var(--text-dark);">${item.productName}${label}</td>
-          <td style="text-align: center; padding: 1rem;">${item.quantity}</td>
-          <td style="text-align: right; padding: 1rem;">${formatMoney(item.price)}</td>
-          <td style="text-align: right; padding: 1rem; font-weight: bold;">${formatMoney(subtotalCents / 100)}</td>
-          <td style="text-align: center; padding: 1rem;">
-            <button type="button" class="remove-btn" data-key="${key}" style="background-color: var(--error-red); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 0;">Remove</button>
-          </td>
-        `;
+        const productCell = createCartCell(`${item.productName || ''}${label}`, {
+          padding: '1rem',
+          color: 'var(--text-dark)'
+        });
+        if (linePricing.discount) {
+          productCell.appendChild(document.createElement('br'));
+          const discountNote = document.createElement('small');
+          discountNote.textContent = `${Math.round(linePricing.discount * 100)}% quantity discount applied`;
+          productCell.appendChild(discountNote);
+        }
+
+        const quantityCell = createCartCell(item.quantity, { textAlign: 'center', padding: '1rem' });
+        const priceCell = createCartCell(formatMoney(item.price), { textAlign: 'right', padding: '1rem' });
+        const subtotalCell = createCartCell(formatMoney(linePricing.subtotalCents / 100), {
+          textAlign: 'right',
+          padding: '1rem',
+          fontWeight: 'bold'
+        });
+        const actionCell = document.createElement('td');
+        Object.assign(actionCell.style, { textAlign: 'center', padding: '1rem' });
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.className = 'remove-btn';
+        removeButton.dataset.key = key;
+        removeButton.textContent = 'Remove';
+        Object.assign(removeButton.style, {
+          backgroundColor: 'var(--error-red)',
+          color: 'white',
+          border: 'none',
+          padding: '0.5rem 1rem',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          fontWeight: 'bold',
+          margin: '0'
+        });
+        actionCell.appendChild(removeButton);
+        row.append(productCell, quantityCell, priceCell, subtotalCell, actionCell);
         cartItems.appendChild(row);
       });
 
       document.getElementById('total-items').textContent = totalItems;
-      document.getElementById('total-price').textContent = formatMoney(totalCents / 100);
+      document.getElementById('bulk-savings-row').style.display = pricing.bulkSavingsCents ? 'flex' : 'none';
+      document.getElementById('bulk-savings').textContent = formatMoney(pricing.bulkSavingsCents / 100);
+      document.getElementById('coupon-savings-row').style.display = pricing.couponSavingsCents ? 'flex' : 'none';
+      document.getElementById('coupon-savings').textContent = formatMoney(pricing.couponSavingsCents / 100);
+      document.getElementById('total-price').textContent = formatMoney(pricing.totalCents / 100);
+      document.getElementById('coupon-code').value = coupon;
+      document.getElementById('remove-coupon').style.display = coupon ? '' : 'none';
+      document.getElementById('coupon-message').textContent = coupon
+        ? window.NorthStarBakeryPricing.validateCouponCode(coupon).message
+        : '';
 
       document.querySelectorAll('.remove-btn').forEach((btn) => {
         btn.addEventListener('click', () => removeFromCart(btn.dataset.key));
@@ -147,6 +226,28 @@
       saveCart(cart);
       displayCart();
     }
+
+    document.getElementById('coupon-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const coupon = window.NorthStarBakeryPricing.validateCouponCode(
+        document.getElementById('coupon-code').value,
+        getAppliedCoupon()
+      );
+      const message = document.getElementById('coupon-message');
+
+      if (!coupon.valid) {
+        message.textContent = coupon.message;
+        return;
+      }
+
+      localStorage.setItem(COUPON_STORAGE_KEY, coupon.code);
+      displayCart();
+    });
+
+    document.getElementById('remove-coupon').addEventListener('click', () => {
+      localStorage.removeItem(COUPON_STORAGE_KEY);
+      displayCart();
+    });
 
     document.addEventListener('DOMContentLoaded', displayCart);
   </script>
