@@ -57,7 +57,7 @@
     <section>
       <h2>Pastries</h2>
       <img src="images/bakery-feature-small_c.png" alt="Bakery feature small pastry selection" style="width: 100%; max-width: 700px; border-radius: 8px; margin-bottom: 1rem;">
-      <p>Our pastries are handmade daily and feature imported European butter for an authentic experience. Buy a half dozen or dozen and save 15%!</p>
+      <p>Our pastries are handmade daily and feature imported European butter for an authentic experience. Save 15% on a half dozen or 20% on a full dozen!</p>
       <div id="pastries-list"></div>
     </section>
 
@@ -103,7 +103,8 @@
   <script>
     const CART_STORAGE_KEY = 'north-star-bakery-cart';
     const STORAGE_KEY = 'north-star-bakery-favorites';
-    const BULK_DISCOUNT = 0.15;
+    const HALF_DOZEN_DISCOUNT = 0.15;
+    const DOZEN_DISCOUNT = 0.20;
 
     // ---------- Product data (all prices are calculated from this) ----------
     const breads = [
@@ -124,8 +125,8 @@
       return Math.round(value * 100) / 100;
     }
 
-    function bulkPrice(single, count) {
-      return roundMoney(single * count * (1 - BULK_DISCOUNT));
+    function bulkPrice(single, count, discount) {
+      return roundMoney(single * count * (1 - discount));
     }
 
     function getBreadOptions(p) {
@@ -138,8 +139,8 @@
     function getPastryOptions(p) {
       return [
         { value: 'single', label: 'Single', price: p.single },
-        { value: 'half-dozen', label: 'Half Dozen', price: bulkPrice(p.single, 6), note: '15% off' },
-        { value: 'dozen', label: 'Dozen', price: bulkPrice(p.single, 12), note: '15% off' }
+        { value: 'half-dozen', label: 'Half Dozen', price: bulkPrice(p.single, 6, HALF_DOZEN_DISCOUNT), note: '15% off' },
+        { value: 'dozen', label: 'Dozen', price: bulkPrice(p.single, 12, DOZEN_DISCOUNT), note: '20% off' }
       ];
     }
 
