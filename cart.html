@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - North Star Bakery</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <svg width="120" height="120" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="basketGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#d4a574;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#c97f2d;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <g fill="none" stroke="url(#basketGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M 40 80 Q 40 60 60 50 L 140 50 Q 160 60 160 80 L 160 140 Q 160 160 140 160 L 60 160 Q 40 160 40 140 Z"/>
+        <g transform="translate(100, 90)">
+          <line x1="0" y1="-20" x2="0" y2="20" stroke="url(#basketGrad)" stroke-width="8"/>
+          <ellipse cx="-12" cy="-15" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="12" cy="-15" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="-12" cy="-5" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="12" cy="-5" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="-12" cy="5" rx="6" ry="10" fill="url(#basketGrad)"/>
+          <ellipse cx="12" cy="5" rx="6" ry="10" fill="url(#basketGrad)"/>
+        </g>
+      </g>
+    </svg>
+    <h1>Shopping Cart</h1>
+    <p>Review and complete your pre-order</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section>
+      <h2>Your Order</h2>
+      <div id="empty-cart-message" style="text-align: center; color: var(--text-light); display: none;">
+        <p>Your cart is empty.</p>
+        <a href="products.html" style="color: var(--primary-brown); font-weight: bold;">Continue shopping</a>
+      </div>
+      <div id="cart-items-container" style="display: none;">
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-color);">
+              <th style="text-align: left; padding: 1rem; color: var(--primary-brown);">Product</th>
+              <th style="text-align: center; padding: 1rem; color: var(--primary-brown);">Quantity</th>
+              <th style="text-align: right; padding: 1rem; color: var(--primary-brown);">Price Each</th>
+              <th style="text-align: right; padding: 1rem; color: var(--primary-brown);">Subtotal</th>
+              <th style="text-align: center; padding: 1rem; color: var(--primary-brown);">Action</th>
+            </tr>
+          </thead>
+          <tbody id="cart-items">
+          </tbody>
+        </table>
+
+        <div style="background-color: #f9f6f0; padding: 2rem; border-radius: 8px; max-width: 400px; margin-left: auto;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 2px solid var(--border-color);">
+            <strong style="color: var(--primary-brown);">Total Items:</strong>
+            <span id="total-items">0</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <strong style="color: var(--primary-brown); font-size: 1.2rem;">Estimated Total:</strong>
+            <span id="total-price" style="font-size: 1.2rem; color: var(--accent-orange); font-weight: bold;">$0.00</span>
+          </div>
+        </div>
+
+        <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+          <a href="products.html" class="secondary-button" style="padding: 0.75rem 2rem; text-decoration: none; display: inline-block;">Continue Shopping</a>
+          <a href="contact.html" style="background-color: var(--primary-brown); color: white; padding: 0.75rem 2rem; border-radius: 4px; text-decoration: none; display: inline-block; font-weight: bold;">Proceed to Pre-Order</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 North Star Bakery. All rights reserved.</p>
+    <p>Baked with love for our community.</p>
+  </footer>
+
+  <script>
+    const CART_STORAGE_KEY = 'north-star-bakery-cart';
+
+    const productPrices = {
+      'signature-sourdough': { name: 'Signature Sourdough', min: 5.50, max: 6.50 },
+      'whole-wheat-harvest': { name: 'Whole Wheat Harvest', min: 5.00, max: 6.00 },
+      'focaccia': { name: 'Focaccia', min: 4.50, max: 5.50 },
+      'ciabatta': { name: 'Ciabatta', min: 5.00, max: 6.00 },
+      'butter-croissants': { name: 'Butter Croissants', min: 3.50, max: 4.50 },
+      'danish-variety-pack': { name: 'Danish Variety Pack', min: 12.00, max: 15.00 },
+      'morning-glory-muffins': { name: 'Morning Glory Muffins', min: 2.50, max: 3.50 },
+      'pain-au-chocolat': { name: 'Pain au Chocolat', min: 4.00, max: 5.00 }
+    };
+
+    function getStoredCart() {
+      const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '{}');
+      return cart;
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    }
+
+    function displayCart() {
+      const cart = getStoredCart();
+      const cartItems = document.getElementById('cart-items');
+      const emptyMessage = document.getElementById('empty-cart-message');
+      const itemsContainer = document.getElementById('cart-items-container');
+
+      if (Object.keys(cart).length === 0) {
+        emptyMessage.style.display = 'block';
+        itemsContainer.style.display = 'none';
+        return;
+      }
+
+      emptyMessage.style.display = 'none';
+      itemsContainer.style.display = 'block';
+      cartItems.innerHTML = '';
+
+      let totalItems = 0;
+      let totalPrice = 0;
+
+      Object.keys(cart).forEach((productId) => {
+        const quantity = cart[productId];
+        const product = productPrices[productId];
+
+        if (!product) return;
+
+        const avgPrice = (product.min + product.max) / 2;
+        const subtotal = avgPrice * quantity;
+        totalItems += quantity;
+        totalPrice += subtotal;
+
+        const row = document.createElement('tr');
+        row.style.borderBottom = '1px solid var(--border-color)';
+        row.innerHTML = `
+          <td style="padding: 1rem; color: var(--text-dark);">${product.name}</td>
+          <td style="text-align: center; padding: 1rem;">${quantity}</td>
+          <td style="text-align: right; padding: 1rem;">$${avgPrice.toFixed(2)}</td>
+          <td style="text-align: right; padding: 1rem; font-weight: bold;">$${subtotal.toFixed(2)}</td>
+          <td style="text-align: center; padding: 1rem;">
+            <button type="button" class="remove-btn" data-product-id="${productId}" style="background-color: var(--error-red); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: bold;">Remove</button>
+          </td>
+        `;
+        cartItems.appendChild(row);
+      });
+
+      document.getElementById('total-items').textContent = totalItems;
+      document.getElementById('total-price').textContent = `$${totalPrice.toFixed(2)}`;
+
+      const removeButtons = document.querySelectorAll('.remove-btn');
+      removeButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          removeFromCart(btn.dataset.productId);
+        });
+      });
+    }
+
+    function removeFromCart(productId) {
+      const cart = getStoredCart();
+      delete cart[productId];
+      saveCart(cart);
+      displayCart();
+    }
+
+    document.addEventListener('DOMContentLoaded', displayCart);
+  </script>
+</body>
+</html>
