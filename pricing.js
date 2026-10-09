@@ -25,7 +25,7 @@ const NorthStarBakeryPricing = (() => {
     return isPastry && item.size === 'single';
   }
 
-  function calculateCartPricing(items, couponDiscount = 0) {
+  function calculateCartPricing(items, couponRate = 0) {
     const pastryQuantity = items.reduce((total, item) =>
       total + (isDiscountablePastry(item) ? item.quantity : 0), 0);
     const pastryDiscount = getPastryDiscount(pastryQuantity);
@@ -42,7 +42,7 @@ const NorthStarBakeryPricing = (() => {
     });
     const subtotalCents = lines.reduce((total, line) => total + line.subtotalCents, 0);
     const bulkSavingsCents = lines.reduce((total, line) => total + line.savingsCents, 0);
-    const couponSavingsCents = Math.round(subtotalCents * couponDiscount);
+    const couponSavingsCents = Math.round(subtotalCents * couponRate);
 
     return {
       lines,

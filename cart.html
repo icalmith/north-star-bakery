@@ -101,7 +101,9 @@
       // Keep only valid entries (ignores old-format entries that had no price)
       Object.keys(raw).forEach((key) => {
         const item = raw[key];
-        if (item && typeof item === 'object' && item.quantity > 0 && typeof item.price === 'number') {
+        if (item && typeof item === 'object'
+          && Number.isSafeInteger(item.quantity) && item.quantity > 0
+          && typeof item.price === 'number' && Number.isFinite(item.price) && item.price > 0) {
           cart[key] = item;
         }
       });

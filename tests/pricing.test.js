@@ -83,6 +83,7 @@ describe('coupon code validation', () => {
   });
 
   it('rejects unknown codes and preserves an already-applied coupon', () => {
+    assert.equal(pricing.validateCouponCode('').valid, false);
     assert.equal(pricing.validateCouponCode('NOTREAL').valid, false);
     const result = pricing.validateCouponCode('NOTREAL', 'WELCOME10');
     assert.equal(result.valid, false);
