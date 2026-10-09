@@ -83,9 +83,6 @@ const NorthStarBakeryPricing = (() => {
     },
     getPastryDiscount,
     validateCouponCode,
-    isPastryProduct(productId) {
-      return pastryProductIds.has(productId);
-    },
     isDiscountablePastry,
     calculateCartPricing
   });

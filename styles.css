@@ -383,6 +383,10 @@ button[type="reset"]:hover,
   margin: 0;
 }
 
+.coupon-controls .secondary-button {
+  background-color: var(--text-light);
+}
+
 #favorites-count {
   color: var(--text-light);
   font-weight: bold;
