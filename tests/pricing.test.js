@@ -2,36 +2,34 @@ const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
 const pricing = require('../pricing.js');
 
-function pastry(productId, price, quantity, size = 'single') {
-  return { productId, productType: 'pastry', size, price, quantity };
-}
-
-describe('pastry quantity discounts', () => {
+describe('cart-wide quantity discounts', () => {
   it('uses the correct rates at each quantity boundary', () => {
-    assert.equal(pricing.getPastryDiscount(5), 0);
-    assert.equal(pricing.getPastryDiscount(6), pricing.halfDozenDiscount);
-    assert.equal(pricing.getPastryDiscount(11), pricing.halfDozenDiscount);
-    assert.equal(pricing.getPastryDiscount(12), pricing.dozenDiscount);
+    assert.equal(pricing.getQuantityDiscount(5), 0);
+    assert.equal(pricing.getQuantityDiscount(6), pricing.halfDozenDiscount);
+    assert.equal(pricing.getQuantityDiscount(11), pricing.halfDozenDiscount);
+    assert.equal(pricing.getQuantityDiscount(12), pricing.dozenDiscount);
+    assert.equal(pricing.getQuantityDiscount(23), pricing.dozenDiscount);
+    assert.equal(pricing.getQuantityDiscount(24), pricing.largeDiscount);
   });
 
-  it('calculates bundle prices from the same discount rates', () => {
+  it('calculates bulk prices from the configured rates', () => {
     assert.equal(pricing.bulkPrice(3.50, 6, pricing.halfDozenDiscount), 17.85);
     assert.equal(pricing.bulkPrice(3.50, 12, pricing.dozenDiscount), 33.60);
   });
 
-  it('counts single pastries across varieties while excluding bread and priced bundles', () => {
+  it('counts bread and pastries together and discounts every line at the cart tier', () => {
     const items = [
-      pastry('butter-croissants', 3.50, 2),
-      pastry('morning-glory-muffins', 2.50, 4),
-      { productId: 'signature-sourdough', productType: 'bread', size: 'single', price: 5, quantity: 12 },
-      pastry('danish-variety-pack', 22.95, 1, 'half-dozen')
+      { productId: 'signature-sourdough', productType: 'bread', price: 5, quantity: 2 },
+      { productId: 'morning-glory-muffins', productType: 'pastry', price: 2.50, quantity: 4 }
     ];
     const cart = pricing.calculateCartPricing(items, pricing.couponDiscount);
 
-    assert.equal(cart.pastryQuantity, 6);
-    assert.equal(cart.bulkSavingsCents, 255);
-    assert.equal(cart.lines[2].discount, 0);
-    assert.equal(cart.lines[3].discount, 0);
+    assert.equal(cart.totalQuantity, 6);
+    assert.equal(cart.bulkSavingsCents, 300);
+    assert.equal(cart.lines[0].discount, pricing.halfDozenDiscount);
+    assert.equal(cart.lines[1].discount, pricing.halfDozenDiscount);
+    assert.equal(cart.lines[0].subtotalCents, 850);
+    assert.equal(cart.lines[1].subtotalCents, 850);
     const regularSubtotalCents = items.reduce(
       (total, item) => total + Math.round(item.price * 100) * item.quantity,
       0
@@ -42,34 +40,15 @@ describe('pastry quantity discounts', () => {
     assert.equal(cart.totalCents, discountedSubtotalCents - expectedCouponSavingsCents);
   });
 
-  it('counts individual Danish pastries but excludes their pre-priced half-dozen bundle', () => {
-    const individualOrder = pricing.calculateCartPricing([
-      pastry('danish-variety-pack', 4.50, 6)
-    ]);
-    const bundleOrder = pricing.calculateCartPricing([
-      pastry('danish-variety-pack', 22.95, 1, 'half-dozen')
+  it('applies the large-order tier to all lines once the cart reaches 24 items', () => {
+    const cart = pricing.calculateCartPricing([
+      { productType: 'bread', price: 5, quantity: 23 },
+      { productType: 'pastry', price: 4, quantity: 1 }
     ]);
 
-    assert.equal(individualOrder.pastryQuantity, 6);
-    assert.equal(individualOrder.bulkSavingsCents, 405);
-    assert.equal(bundleOrder.pastryQuantity, 0);
-    assert.equal(bundleOrder.bulkSavingsCents, 0);
-  });
-
-  it('applies the dozen rate to mixed pastry quantities and legacy cart items', () => {
-    const mixedCart = pricing.calculateCartPricing([
-      pastry('butter-croissants', 3.50, 8),
-      pastry('morning-glory-muffins', 2.50, 4),
-      pastry('pain-au-chocolat', 4.00, 1)
-    ]);
-    const legacyCart = pricing.calculateCartPricing([
-      { productId: 'pain-au-chocolat', size: 'single', price: 4.00, quantity: 12 }
-    ]);
-
-    assert.equal(mixedCart.pastryQuantity, 13);
-    assert.equal(mixedCart.bulkSavingsCents, 840);
-    assert.equal(mixedCart.totalCents, 3_360);
-    assert.equal(legacyCart.bulkSavingsCents, 960);
+    assert.equal(cart.totalQuantity, 24);
+    assert.equal(cart.lines[0].discount, pricing.largeDiscount);
+    assert.equal(cart.lines[1].discount, pricing.largeDiscount);
   });
 });
 
