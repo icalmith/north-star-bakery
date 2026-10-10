@@ -144,12 +144,14 @@
           <p>${p.description}</p>
           <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; justify-content: space-between;">
             <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-              <select class="size-select" data-product-id="${p.id}" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">${optionsHtml}</select>
+              <select class="size-select" data-product-id="${p.id}">${optionsHtml}</select>
               <div class="quantity-control" style="display: flex; align-items: center; gap: 0.5rem; background-color: #f9f6f0; padding: 0.5rem; border-radius: 4px;">
                 <button type="button" class="qty-decrease" data-product-id="${p.id}" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 0; padding: 0;">−</button>
                 <span class="qty-display" data-product-id="${p.id}" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
                 <button type="button" class="qty-increase" data-product-id="${p.id}" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 0; padding: 0;">+</button>
               </div>
+              <button type="button" class="quick-qty-button" data-product-id="${p.id}" data-quantity="6" aria-label="Set quantity to half dozen (6)">1/2 Doz.</button>
+              <button type="button" class="quick-qty-button" data-product-id="${p.id}" data-quantity="12" aria-label="Set quantity to one dozen (12)">1 Doz.</button>
               <span class="quantity-discount-notice" data-product-id="${p.id}" aria-live="polite" hidden></span>
               <button type="button" class="add-to-cart-btn" data-product-id="${p.id}" data-product-type="${p.type}" data-product-name="${p.name}" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 0;">Add to Order</button>
             </div>
@@ -183,6 +185,12 @@
 
     const quantityState = {};
 
+    function setQuantity(id, quantity) {
+      quantityState[id] = quantity;
+      document.querySelector(`.qty-display[data-product-id="${id}"]`).textContent = quantity;
+      updateQuantityDiscountNotice(id);
+    }
+
     function updateQuantityDiscountNotice(id) {
       const quantity = quantityState[id] || 1;
       const notice = document.querySelector(`.quantity-discount-notice[data-product-id="${id}"]`);
@@ -199,21 +207,20 @@
       document.querySelectorAll('.qty-decrease').forEach((btn) => {
         btn.addEventListener('click', () => {
           const id = btn.dataset.productId;
-          quantityState[id] = quantityState[id] || 1;
-          if (quantityState[id] > 1) {
-            quantityState[id]--;
-            document.querySelector(`.qty-display[data-product-id="${id}"]`).textContent = quantityState[id];
-          }
-          updateQuantityDiscountNotice(id);
+          setQuantity(id, Math.max(1, (quantityState[id] || 1) - 1));
         });
       });
 
       document.querySelectorAll('.qty-increase').forEach((btn) => {
         btn.addEventListener('click', () => {
           const id = btn.dataset.productId;
-          quantityState[id] = (quantityState[id] || 1) + 1;
-          document.querySelector(`.qty-display[data-product-id="${id}"]`).textContent = quantityState[id];
-          updateQuantityDiscountNotice(id);
+          setQuantity(id, (quantityState[id] || 1) + 1);
+        });
+      });
+
+      document.querySelectorAll('.quick-qty-button').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          setQuantity(btn.dataset.productId, parseInt(btn.dataset.quantity, 10));
         });
       });
 
@@ -228,9 +235,7 @@
           addToCart(id, btn.dataset.productType, select.value, option.dataset.label, qty, price, btn.dataset.productName);
           alert(`${qty} × ${btn.dataset.productName} (${option.dataset.label}) added to your order!`);
 
-          quantityState[id] = 1;
-          document.querySelector(`.qty-display[data-product-id="${id}"]`).textContent = 1;
-          updateQuantityDiscountNotice(id);
+          setQuantity(id, 1);
         });
       });
     }

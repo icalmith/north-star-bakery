@@ -363,6 +363,34 @@ button[type="reset"]:hover,
   line-height: 1.2;
 }
 
+.size-select {
+  padding: 0.3rem 0.4rem;
+  font-size: 0.85rem;
+  width: auto;
+  max-width: 9rem;
+  min-height: 2rem;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  background-color: white;
+}
+
+.quick-qty-button {
+  background-color: var(--text-light);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.6rem;
+  width: auto;
+  margin: 0 0.25rem 0 0;
+}
+
+.quick-qty-button:hover {
+  background-color: var(--text-dark);
+}
+
 .coupon-section {
   margin: 0 0 2rem;
   padding: 1.5rem;
@@ -516,6 +544,11 @@ footer p {
     width: 100%;
     margin-right: 0;
     margin-bottom: 0.5rem;
+  }
+
+  .quick-qty-button {
+    width: auto;
+    margin: 0 0.25rem 0 0;
   }
 
   .favorite-button {
