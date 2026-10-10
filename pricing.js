@@ -7,38 +7,23 @@ const NorthStarBakeryPricing = (() => {
   const largeDiscount = 0.25;
   const couponCode = 'WELCOME10';
   const couponDiscount = 0.10;
-  const pastryProductIds = new Set([
-    'butter-croissants',
-    'danish-variety-pack',
-    'morning-glory-muffins',
-    'pain-au-chocolat'
-  ]);
 
-  function getPastryDiscount(quantity) {
+  function getQuantityDiscount(quantity) {
     if (quantity >= largeQuantity) return largeDiscount;
     if (quantity >= dozenQuantity) return dozenDiscount;
     if (quantity >= halfDozenQuantity) return halfDozenDiscount;
     return 0;
   }
 
-  function isDiscountablePastry(item) {
-    const isPastry = item.productType
-      ? item.productType === 'pastry'
-      : pastryProductIds.has(item.productId);
-    return isPastry && item.size === 'single';
-  }
-
   function calculateCartPricing(items, couponRate = 0) {
-    const pastryQuantity = items.reduce((total, item) =>
-      total + (isDiscountablePastry(item) ? item.quantity : 0), 0);
-    const pastryDiscount = getPastryDiscount(pastryQuantity);
+    const totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
+    const quantityDiscount = getQuantityDiscount(totalQuantity);
     const lines = items.map((item) => {
       const regularSubtotalCents = Math.round(item.price * 100) * item.quantity;
-      const discount = isDiscountablePastry(item) ? pastryDiscount : 0;
-      const savingsCents = Math.round(regularSubtotalCents * discount);
+      const savingsCents = Math.round(regularSubtotalCents * quantityDiscount);
 
       return {
-        discount,
+        discount: quantityDiscount,
         savingsCents,
         subtotalCents: regularSubtotalCents - savingsCents
       };
@@ -49,7 +34,7 @@ const NorthStarBakeryPricing = (() => {
 
     return {
       lines,
-      pastryQuantity,
+      totalQuantity,
       bulkSavingsCents,
       couponSavingsCents,
       totalCents: subtotalCents - couponSavingsCents
@@ -86,9 +71,8 @@ const NorthStarBakeryPricing = (() => {
     bulkPrice(single, count, discount) {
       return Math.round(single * count * (1 - discount) * 100) / 100;
     },
-    getPastryDiscount,
+    getQuantityDiscount,
     validateCouponCode,
-    isDiscountablePastry,
     calculateCartPricing
   });
 })();
