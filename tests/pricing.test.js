@@ -2,14 +2,17 @@ const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
 const pricing = require('../pricing.js');
 
-describe('cart-wide quantity discounts', () => {
+describe('per-line quantity discounts', () => {
   it('uses the correct rates at each quantity boundary', () => {
-    assert.equal(pricing.getQuantityDiscount(5), 0);
+    assert.equal(pricing.getQuantityDiscount(3), 0);
+    assert.equal(pricing.getQuantityDiscount(4), 0.10);
+    assert.equal(pricing.getQuantityDiscount(5), 0.10);
     assert.equal(pricing.getQuantityDiscount(6), pricing.halfDozenDiscount);
     assert.equal(pricing.getQuantityDiscount(11), pricing.halfDozenDiscount);
     assert.equal(pricing.getQuantityDiscount(12), pricing.dozenDiscount);
     assert.equal(pricing.getQuantityDiscount(23), pricing.dozenDiscount);
     assert.equal(pricing.getQuantityDiscount(24), pricing.largeDiscount);
+    assert.equal(pricing.largeDiscount, 0.30);
   });
 
   it('calculates bulk prices from the configured rates', () => {
@@ -17,7 +20,7 @@ describe('cart-wide quantity discounts', () => {
     assert.equal(pricing.bulkPrice(3.50, 12, pricing.dozenDiscount), 33.60);
   });
 
-  it('counts bread and pastries together and discounts every line at the cart tier', () => {
+  it('discounts each line using only its own quantity and preserves the coupon', () => {
     const items = [
       { productId: 'signature-sourdough', productType: 'bread', price: 5, quantity: 2 },
       { productId: 'morning-glory-muffins', productType: 'pastry', price: 2.50, quantity: 4 }
@@ -25,11 +28,13 @@ describe('cart-wide quantity discounts', () => {
     const cart = pricing.calculateCartPricing(items, pricing.couponDiscount);
 
     assert.equal(cart.totalQuantity, 6);
-    assert.equal(cart.bulkSavingsCents, 300);
-    assert.equal(cart.lines[0].discount, pricing.halfDozenDiscount);
-    assert.equal(cart.lines[1].discount, pricing.halfDozenDiscount);
-    assert.equal(cart.lines[0].subtotalCents, 850);
-    assert.equal(cart.lines[1].subtotalCents, 850);
+    assert.equal(cart.bulkSavingsCents, 100);
+    assert.equal(cart.lines[0].discount, 0);
+    assert.equal(cart.lines[0].savingsCents, 0);
+    assert.equal(cart.lines[0].subtotalCents, 1000);
+    assert.equal(cart.lines[1].discount, 0.10);
+    assert.equal(cart.lines[1].savingsCents, 100);
+    assert.equal(cart.lines[1].subtotalCents, 900);
     const regularSubtotalCents = items.reduce(
       (total, item) => total + Math.round(item.price * 100) * item.quantity,
       0
@@ -40,15 +45,26 @@ describe('cart-wide quantity discounts', () => {
     assert.equal(cart.totalCents, discountedSubtotalCents - expectedCouponSavingsCents);
   });
 
-  it('applies the large-order tier to all lines once the cart reaches 24 items', () => {
+  it('does not let one qualifying line discount another line', () => {
     const cart = pricing.calculateCartPricing([
       { productType: 'bread', price: 5, quantity: 23 },
       { productType: 'pastry', price: 4, quantity: 1 }
     ]);
 
     assert.equal(cart.totalQuantity, 24);
-    assert.equal(cart.lines[0].discount, pricing.largeDiscount);
-    assert.equal(cart.lines[1].discount, pricing.largeDiscount);
+    assert.equal(cart.lines[0].discount, pricing.dozenDiscount);
+    assert.equal(cart.lines[0].savingsCents, 2300);
+    assert.equal(cart.lines[0].subtotalCents, 9200);
+    assert.equal(cart.lines[1].discount, 0);
+    assert.equal(cart.lines[1].savingsCents, 0);
+    assert.equal(cart.lines[1].subtotalCents, 400);
+
+    const largeLine = pricing.calculateCartPricing([
+      { productType: 'pastry', price: 4, quantity: 24 }
+    ]).lines[0];
+    assert.equal(largeLine.discount, 0.30);
+    assert.equal(largeLine.savingsCents, 2880);
+    assert.equal(largeLine.subtotalCents, 6720);
   });
 });
 
