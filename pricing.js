@@ -3,6 +3,8 @@ const NorthStarBakeryPricing = (() => {
   const halfDozenDiscount = 0.15;
   const dozenQuantity = 12;
   const dozenDiscount = 0.20;
+  const largeQuantity = 24;
+  const largeDiscount = 0.25;
   const couponCode = 'WELCOME10';
   const couponDiscount = 0.10;
   const pastryProductIds = new Set([
@@ -13,6 +15,7 @@ const NorthStarBakeryPricing = (() => {
   ]);
 
   function getPastryDiscount(quantity) {
+    if (quantity >= largeQuantity) return largeDiscount;
     if (quantity >= dozenQuantity) return dozenDiscount;
     if (quantity >= halfDozenQuantity) return halfDozenDiscount;
     return 0;
@@ -76,6 +79,8 @@ const NorthStarBakeryPricing = (() => {
     halfDozenDiscount,
     dozenQuantity,
     dozenDiscount,
+    largeQuantity,
+    largeDiscount,
     couponCode,
     couponDiscount,
     bulkPrice(single, count, discount) {
