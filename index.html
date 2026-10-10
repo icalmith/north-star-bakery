@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>North Star Bakery - Handmade Bread & Pastries</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="pricing.js"></script>
 </head>
 <body>
   <header>
@@ -67,7 +68,7 @@
       </figure>
       <p><strong>This week's special:</strong> Our Signature Loaf, made with organic flour and our 15-year-old starter. This loaf features a perfectly crispy crust and a beautifully open crumb structure that showcases the depth of flavor developed through our traditional fermentation process.</p>
       <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; align-items: center;">
-        <select id="featured-size" style="padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: white;">
+        <select id="featured-size" class="size-select">
           <option value="small" data-price="5.50" data-label="Small">Small - $5.50</option>
           <option value="large" data-price="6.50" data-label="Large">Large - $6.50</option>
         </select>
@@ -76,6 +77,9 @@
           <span id="featured-qty" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
           <button type="button" id="increase-featured" style="background-color: var(--accent-orange); color: white; border: none; width: 32px; height: 32px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 0; padding: 0;">+</button>
         </div>
+        <button type="button" class="quick-qty-button" data-quantity="6" aria-label="Set quantity to half dozen (6)">1/2 Doz.</button>
+        <button type="button" class="quick-qty-button" data-quantity="12" aria-label="Set quantity to one dozen (12)">1 Doz.</button>
+        <span id="featured-discount-notice" class="quantity-discount-notice" aria-live="polite" hidden></span>
         <button type="button" id="add-featured-to-cart" style="background-color: var(--primary-brown); color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 0;">Pre-order now for weekend pickup!</button>
       </div>
       <p style="color: var(--accent-orange); font-weight: bold; margin-top: 1rem;">Limited quantities available.</p>
@@ -129,19 +133,29 @@
       saveCart(cart);
     }
 
+    const { getQuantityDiscount } = window.NorthStarBakeryPricing;
     let featuredQuantity = 1;
     const qtySpan = document.getElementById('featured-qty');
+    const featuredNotice = document.getElementById('featured-discount-notice');
+
+    function setFeaturedQuantity(quantity) {
+      featuredQuantity = quantity;
+      qtySpan.textContent = quantity;
+      const discount = getQuantityDiscount(quantity);
+      featuredNotice.hidden = !discount;
+      featuredNotice.textContent = discount ? `${Math.round(discount * 100)}% discount applies at checkout` : '';
+    }
 
     document.getElementById('decrease-featured').addEventListener('click', () => {
-      if (featuredQuantity > 1) {
-        featuredQuantity--;
-        qtySpan.textContent = featuredQuantity;
-      }
+      setFeaturedQuantity(Math.max(1, featuredQuantity - 1));
     });
 
     document.getElementById('increase-featured').addEventListener('click', () => {
-      featuredQuantity++;
-      qtySpan.textContent = featuredQuantity;
+      setFeaturedQuantity(featuredQuantity + 1);
+    });
+
+    document.querySelectorAll('.quick-qty-button').forEach((btn) => {
+      btn.addEventListener('click', () => setFeaturedQuantity(parseInt(btn.dataset.quantity, 10)));
     });
 
     document.getElementById('add-featured-to-cart').addEventListener('click', () => {
@@ -149,8 +163,7 @@
       const option = select.options[select.selectedIndex];
       addToCart('signature-sourdough', select.value, option.dataset.label, featuredQuantity, parseFloat(option.dataset.price), 'Signature Sourdough');
       alert(`${featuredQuantity} × Signature Sourdough (${option.dataset.label}) added to your order!`);
-      featuredQuantity = 1;
-      qtySpan.textContent = 1;
+      setFeaturedQuantity(1);
     });
   </script>
 </body>
