@@ -79,7 +79,7 @@
 
         <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
           <a href="products.html" style="background-color: var(--text-light); color: white; padding: 0.75rem 2rem; border-radius: 4px; text-decoration: none; display: inline-block; font-weight: bold;">Continue Shopping</a>
-          <a href="contact.html" style="background-color: var(--primary-brown); color: white; padding: 0.75rem 2rem; border-radius: 4px; text-decoration: none; display: inline-block; font-weight: bold;">Proceed to Pre-Order</a>
+          <a href="contact.html" style="background-color: var(--primary-brown); color: white; padding: 0.75rem 2rem; border-radius: 4px; text-decoration: none; display: inline-block; font-weight: bold;">Proceed to Contact</a>
         </div>
       </div>
     </section>
@@ -130,6 +130,21 @@
       return coupon === VALID_COUPON ? coupon : '';
     }
 
+    function updateItemQuantity(key, delta) {
+      const cart = getStoredCart();
+      if (!cart[key]) return;
+
+      const nextQuantity = cart[key].quantity + delta;
+      if (nextQuantity <= 0) {
+        delete cart[key];
+      } else {
+        cart[key].quantity = nextQuantity;
+      }
+
+      saveCart(cart);
+      displayCart();
+    }
+
     function displayCart() {
       const cart = getStoredCart();
       saveCart(cart);
@@ -174,7 +189,61 @@
           productCell.appendChild(discountNote);
         }
 
-        const quantityCell = createCartCell(item.quantity, { textAlign: 'center', padding: '1rem' });
+        const quantityCell = document.createElement('td');
+        Object.assign(quantityCell.style, { textAlign: 'center', padding: '1rem' });
+        const quantityWrap = document.createElement('div');
+        Object.assign(quantityWrap.style, {
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.5rem',
+          justifyContent: 'center',
+          flexWrap: 'wrap'
+        });
+
+        const decreaseButton = document.createElement('button');
+        decreaseButton.type = 'button';
+        decreaseButton.textContent = '−';
+        decreaseButton.setAttribute('aria-label', `Decrease quantity for ${item.productName || 'item'}`);
+        Object.assign(decreaseButton.style, {
+          backgroundColor: 'var(--accent-orange)',
+          color: 'white',
+          border: 'none',
+          width: '32px',
+          height: '32px',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          fontWeight: 'bold',
+          margin: '0'
+        });
+        decreaseButton.addEventListener('click', () => updateItemQuantity(key, -1));
+
+        const quantityValue = document.createElement('span');
+        quantityValue.textContent = String(item.quantity);
+        Object.assign(quantityValue.style, {
+          minWidth: '2rem',
+          fontWeight: 'bold'
+        });
+
+        const increaseButton = document.createElement('button');
+        increaseButton.type = 'button';
+        increaseButton.textContent = '+';
+        increaseButton.setAttribute('aria-label', `Increase quantity for ${item.productName || 'item'}`);
+        Object.assign(increaseButton.style, {
+          backgroundColor: 'var(--accent-orange)',
+          color: 'white',
+          border: 'none',
+          width: '32px',
+          height: '32px',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          fontWeight: 'bold',
+          margin: '0'
+        });
+        increaseButton.addEventListener('click', () => updateItemQuantity(key, 1));
+
+        quantityWrap.append(decreaseButton, quantityValue, increaseButton);
+        quantityCell.appendChild(quantityWrap);
+
         const priceCell = createCartCell(formatMoney(item.price), { textAlign: 'right', padding: '1rem' });
         const subtotalCell = createCartCell(formatMoney(linePricing.subtotalCents / 100), {
           textAlign: 'right',
