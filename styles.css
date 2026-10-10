@@ -356,6 +356,13 @@ button[type="reset"]:hover,
   flex-wrap: wrap;
 }
 
+.quantity-discount-notice {
+  flex-basis: 100%;
+  color: var(--accent-orange);
+  font-size: 0.85rem;
+  line-height: 1.2;
+}
+
 .coupon-section {
   margin: 0 0 2rem;
   padding: 1.5rem;

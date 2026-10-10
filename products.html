@@ -58,7 +58,7 @@
     <section>
       <h2>Pastries</h2>
       <img src="images/bakery-feature-small_c.png" alt="Bakery feature small pastry selection" style="width: 100%; max-width: 700px; border-radius: 8px; margin-bottom: 1rem;">
-      <p>Our pastries are handmade daily and feature imported European butter for an authentic experience. Save 15% on a half dozen or 20% on a full dozen!</p>
+      <p>Our pastries are handmade daily and feature imported European butter for an authentic experience. Cart-wide savings apply to all items: 15% off 6+, 20% off 12+, and 25% off 24+.</p>
       <div id="pastries-list"></div>
     </section>
 
@@ -104,7 +104,7 @@
   <script>
     const CART_STORAGE_KEY = 'north-star-bakery-cart';
     const STORAGE_KEY = 'north-star-bakery-favorites';
-    const { halfDozenQuantity, halfDozenDiscount, dozenQuantity, dozenDiscount, bulkPrice } = window.NorthStarBakeryPricing;
+    const { halfDozenQuantity, dozenQuantity, largeQuantity, getQuantityDiscount } = window.NorthStarBakeryPricing;
 
     // ---------- Product data (all prices are calculated from this) ----------
     const breads = [
@@ -129,11 +129,7 @@
     }
 
     function getPastryOptions(p) {
-      return [
-        { value: 'single', label: 'Single', price: p.single },
-        { value: 'half-dozen', label: 'Half Dozen', price: bulkPrice(p.single, halfDozenQuantity, halfDozenDiscount), note: `${Math.round(halfDozenDiscount * 100)}% off` },
-        { value: 'dozen', label: 'Dozen', price: bulkPrice(p.single, dozenQuantity, dozenDiscount), note: `${Math.round(dozenDiscount * 100)}% off` }
-      ];
+      return [{ value: 'single', label: 'Single', price: p.single }];
     }
 
     // ---------- Rendering ----------
@@ -154,6 +150,7 @@
                 <span class="qty-display" data-product-id="${p.id}" style="min-width: 30px; text-align: center; font-weight: bold;">1</span>
                 <button type="button" class="qty-increase" data-product-id="${p.id}" style="background-color: var(--accent-orange); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 0; padding: 0;">+</button>
               </div>
+              <span class="quantity-discount-notice" data-product-id="${p.id}" aria-live="polite" hidden></span>
               <button type="button" class="add-to-cart-btn" data-product-id="${p.id}" data-product-type="${p.type}" data-product-name="${p.name}" style="background-color: var(--primary-brown); color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 0;">Add to Order</button>
             </div>
             <button type="button" class="favorite-button" data-product-id="${p.id}" data-product-name="${p.name}" style="flex-shrink: 0; margin: 0;">♡ Favorite</button>
@@ -186,6 +183,18 @@
 
     const quantityState = {};
 
+    function updateQuantityDiscountNotice(id) {
+      const quantity = quantityState[id] || 1;
+      const notice = document.querySelector(`.quantity-discount-notice[data-product-id="${id}"]`);
+      const tierQuantity = quantity >= largeQuantity ? largeQuantity
+        : quantity >= dozenQuantity ? dozenQuantity
+          : quantity >= halfDozenQuantity ? halfDozenQuantity : 0;
+      const discount = getQuantityDiscount(quantity);
+
+      notice.hidden = !tierQuantity;
+      notice.textContent = tierQuantity ? `${Math.round(discount * 100)}% discount applies at checkout` : '';
+    }
+
     function initializeQuantityControls() {
       document.querySelectorAll('.qty-decrease').forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -195,6 +204,7 @@
             quantityState[id]--;
             document.querySelector(`.qty-display[data-product-id="${id}"]`).textContent = quantityState[id];
           }
+          updateQuantityDiscountNotice(id);
         });
       });
 
@@ -203,6 +213,7 @@
           const id = btn.dataset.productId;
           quantityState[id] = (quantityState[id] || 1) + 1;
           document.querySelector(`.qty-display[data-product-id="${id}"]`).textContent = quantityState[id];
+          updateQuantityDiscountNotice(id);
         });
       });
 
@@ -219,6 +230,7 @@
 
           quantityState[id] = 1;
           document.querySelector(`.qty-display[data-product-id="${id}"]`).textContent = 1;
+          updateQuantityDiscountNotice(id);
         });
       });
     }
