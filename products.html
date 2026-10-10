@@ -58,7 +58,7 @@
     <section>
       <h2>Pastries</h2>
       <img src="images/bakery-feature-small_c.png" alt="Bakery feature small pastry selection" style="width: 100%; max-width: 700px; border-radius: 8px; margin-bottom: 1rem;">
-      <p>Our pastries are handmade daily and feature imported European butter for an authentic experience. Cart-wide savings apply to all items: 15% off 6+, 20% off 12+, and 25% off 24+.</p>
+      <p>Our pastries are handmade daily and feature imported European butter for an authentic experience. Savings apply per item line: 10% off 4+, 15% off 6+, 20% off 12+, and 30% off 24+.</p>
       <div id="pastries-list"></div>
     </section>
 
@@ -104,7 +104,7 @@
   <script>
     const CART_STORAGE_KEY = 'north-star-bakery-cart';
     const STORAGE_KEY = 'north-star-bakery-favorites';
-    const { halfDozenQuantity, dozenQuantity, largeQuantity, getQuantityDiscount } = window.NorthStarBakeryPricing;
+    const { getQuantityDiscount } = window.NorthStarBakeryPricing;
 
     // ---------- Product data (all prices are calculated from this) ----------
     const breads = [
@@ -194,13 +194,10 @@
     function updateQuantityDiscountNotice(id) {
       const quantity = quantityState[id] || 1;
       const notice = document.querySelector(`.quantity-discount-notice[data-product-id="${id}"]`);
-      const tierQuantity = quantity >= largeQuantity ? largeQuantity
-        : quantity >= dozenQuantity ? dozenQuantity
-          : quantity >= halfDozenQuantity ? halfDozenQuantity : 0;
       const discount = getQuantityDiscount(quantity);
 
-      notice.hidden = !tierQuantity;
-      notice.textContent = tierQuantity ? `${Math.round(discount * 100)}% discount applies at checkout` : '';
+      notice.hidden = !discount;
+      notice.textContent = discount ? `${Math.round(discount * 100)}% discount applies at checkout` : '';
     }
 
     function initializeQuantityControls() {
