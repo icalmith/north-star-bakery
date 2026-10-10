@@ -1,25 +1,23 @@
 const NorthStarBakeryPricing = (() => {
-  const halfDozenQuantity = 6;
-  const halfDozenDiscount = 0.15;
-  const dozenQuantity = 12;
-  const dozenDiscount = 0.20;
-  const largeQuantity = 24;
-  const largeDiscount = 0.25;
+  const tiers = Object.freeze([
+    { quantity: 24, discount: 0.30 },
+    { quantity: 12, discount: 0.20 },
+    { quantity: 6, discount: 0.15 },
+    { quantity: 4, discount: 0.10 }
+  ]);
   const couponCode = 'WELCOME10';
   const couponDiscount = 0.10;
 
   function getQuantityDiscount(quantity) {
-    if (quantity >= largeQuantity) return largeDiscount;
-    if (quantity >= dozenQuantity) return dozenDiscount;
-    if (quantity >= halfDozenQuantity) return halfDozenDiscount;
-    return 0;
+    const tier = tiers.find((t) => quantity >= t.quantity);
+    return tier ? tier.discount : 0;
   }
 
   function calculateCartPricing(items, couponRate = 0) {
     const totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
-    const quantityDiscount = getQuantityDiscount(totalQuantity);
     const lines = items.map((item) => {
       const regularSubtotalCents = Math.round(item.price * 100) * item.quantity;
+      const quantityDiscount = getQuantityDiscount(item.quantity);
       const savingsCents = Math.round(regularSubtotalCents * quantityDiscount);
 
       return {
@@ -60,12 +58,7 @@ const NorthStarBakeryPricing = (() => {
   }
 
   return Object.freeze({
-    halfDozenQuantity,
-    halfDozenDiscount,
-    dozenQuantity,
-    dozenDiscount,
-    largeQuantity,
-    largeDiscount,
+    tiers,
     couponCode,
     couponDiscount,
     bulkPrice(single, count, discount) {
