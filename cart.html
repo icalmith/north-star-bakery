@@ -182,12 +182,6 @@
           padding: '1rem',
           color: 'var(--text-dark)'
         });
-        if (linePricing.discount) {
-          productCell.appendChild(document.createElement('br'));
-          const discountNote = document.createElement('small');
-          discountNote.textContent = `${Math.round(linePricing.discount * 100)}% quantity discount applied`;
-          productCell.appendChild(discountNote);
-        }
 
         const quantityCell = document.createElement('td');
         Object.assign(quantityCell.style, { textAlign: 'center', padding: '1rem' });
@@ -245,11 +239,30 @@
         quantityCell.appendChild(quantityWrap);
 
         const priceCell = createCartCell(formatMoney(item.price), { textAlign: 'right', padding: '1rem' });
-        const subtotalCell = createCartCell(formatMoney(linePricing.subtotalCents / 100), {
+        const subtotalCell = document.createElement('td');
+        Object.assign(subtotalCell.style, {
           textAlign: 'right',
           padding: '1rem',
           fontWeight: 'bold'
         });
+
+        if (linePricing.discount) {
+          const discountNote = document.createElement('div');
+          discountNote.textContent = `(${Math.round(linePricing.discount * 100)}% discount applied)`;
+          Object.assign(discountNote.style, {
+            fontSize: '0.8rem',
+            fontWeight: 'normal',
+            lineHeight: '1.2',
+            marginBottom: '0.25rem',
+            color: 'var(--text-light)'
+          });
+          subtotalCell.appendChild(discountNote);
+        }
+
+        const subtotalValue = document.createElement('div');
+        subtotalValue.textContent = formatMoney(linePricing.subtotalCents / 100);
+        subtotalCell.appendChild(subtotalValue);
+
         const actionCell = document.createElement('td');
         Object.assign(actionCell.style, { textAlign: 'center', padding: '1rem' });
         const removeButton = document.createElement('button');
