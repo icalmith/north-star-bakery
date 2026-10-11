@@ -1,4 +1,6 @@
 const NorthStarBakeryPricing = (() => {
+  const smallBulkQuantity = 4;
+  const smallBulkDiscount = 0.10;
   const halfDozenQuantity = 6;
   const halfDozenDiscount = 0.15;
   const dozenQuantity = 12;
@@ -12,14 +14,15 @@ const NorthStarBakeryPricing = (() => {
     if (quantity >= largeQuantity) return largeDiscount;
     if (quantity >= dozenQuantity) return dozenDiscount;
     if (quantity >= halfDozenQuantity) return halfDozenDiscount;
+    if (quantity >= smallBulkQuantity) return smallBulkDiscount;
     return 0;
   }
 
   function calculateCartPricing(items, couponRate = 0) {
     const totalQuantity = items.reduce((total, item) => total + item.quantity, 0);
-    const quantityDiscount = getQuantityDiscount(totalQuantity);
     const lines = items.map((item) => {
       const regularSubtotalCents = Math.round(item.price * 100) * item.quantity;
+      const quantityDiscount = getQuantityDiscount(item.quantity);
       const savingsCents = Math.round(regularSubtotalCents * quantityDiscount);
 
       return {
@@ -60,6 +63,8 @@ const NorthStarBakeryPricing = (() => {
   }
 
   return Object.freeze({
+    smallBulkQuantity,
+    smallBulkDiscount,
     halfDozenQuantity,
     halfDozenDiscount,
     dozenQuantity,
